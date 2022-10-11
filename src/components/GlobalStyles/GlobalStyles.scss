@@ -1,0 +1,149 @@
+@import "normalize.css";
+
+:root {
+  --height-header-slide: 40px;
+  --orange: #f15e2c;
+  --default-layout-header-height: 72px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+  :root {
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
+      sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+      "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+  }
+}
+
+body {
+  font-family: var(
+    --font-family-sans-serif "Franklin Gothic Medium",
+    "Arial Narrow",
+    Arial,
+    sans-serif
+  );
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  color: var(--text-color);
+}
+
+a[href] {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+//Fonts embeded
+// @font-face {
+//   font-family: ProximaNova;
+//   src: url("/assets/fonts/Proxima-Nova-Regular.woff2");
+//   font-weight: 400;
+// }
+// @font-face {
+//   font-family: ProximaNova;
+//   src: url("/assets/fonts/ProximaNova-Semibold.woff2");
+//   font-weight: 600;
+// }
+// @font-face {
+//   font-family: ProximaNova;
+//   src: url("/assets/fonts/Proxima-Nova-Semibold.woff2");
+//   font-weight: 700;
+// }
+
+// //Custom tippy tooltip
+// body {
+//   .tippy-box {
+//     border-radius: 8px;
+//     font-weight: 600;
+//     font-size: 1.6rem;
+//     line-height: 2.2rem;
+//     background-color: rgba(84, 84, 84, 0.92);
+//   }
+
+//   .tippy-arrow {
+//     color: rgba(84, 84, 84, 0.92);
+//   }
+
+//   .tippy-content {
+//     padding: 8px 9px;
+//   }
+
+//   .tippy-box[data-placement^="bottom"] > .tippy-arrow:before {
+//     top: -8px;
+//   }
+// }
+
+//Grid
+.row {
+  display: flex;
+}
+
+.c-2-4 {
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 8px;
+}
+
+.c-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+  padding: 0 8px;
+}
+
+.c-9 {
+  flex: 0 0 75%;
+  max-width: 75%;
+  padding: 0 8px;
+}
+
+.c-2-25 {
+  flex: 0 0 18.75%;
+  max-width: 18.75%;
+  padding: 0 8px;
+}
+
+.c-4 {
+  flex: 0 0 33.3333%;
+  max-width: 33.3333%;
+}
+
+.c-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.c-5 {
+  flex: 0 0 41.66667%;
+  max-width: 41.66667%;
+}
+
+.c-7 {
+  flex: 0 0 58.333333%;
+  max-width: 58.333333%;
+}
+
+.c-8 {
+  flex: 0 0 66.666667%;
+  max-width: 66.666667%;
+}
+
+//dot-line
+.dot-line {
+  border-top: 1px dashed rgb(111, 109, 109);
+  margin: 32px 0 16px 0;
+}
+
+.down-icon {
+  font-size: 2.2rem;
+  transform: translateY(-3%);
+  padding-left: 12px;
+}
