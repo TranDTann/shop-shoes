@@ -1,9 +1,11 @@
 import className from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
+
 const cx = className.bind(styles);
 
 function Header() {
@@ -20,18 +22,18 @@ function Header() {
           </a>
           <div className={cx("colapse-navbar")}>
             <div className={cx("list-navbar")}>
-              <a className={cx("navbar-item")} href="/">
-                HOME
-              </a>
-              <a className={cx("navbar-item")} href="/products">
-                ALL SHOES
-              </a>
-              <a className={cx("navbar-item")} href="/products/men">
-                MEN
-              </a>
-              <a className={cx("navbar-item")} href="/products/women">
-                WOMEN
-              </a>
+              <Link className={cx("navbar-item")} to="/">
+                <button className={cx("btn-tab")}>HOME</button>
+              </Link>
+              <Link className={cx("navbar-item")} to="/products">
+                <button className={cx("btn-tab")}>ALL SHOES</button>
+              </Link>
+              <Link className={cx("navbar-item")} to="/products/men">
+                <button className={cx("btn-tab")}>MEN</button>
+              </Link>
+              <Link className={cx("navbar-item")} to="/products/women">
+                <button className={cx("btn-tab")}>WOMEN</button>
+              </Link>
             </div>
             <Search />
             <button className={cx("heart-icon")}>
@@ -46,13 +48,7 @@ function Header() {
       </div>
       <div className={cx("header-slide")}>
         {/* eslint-disable-next-line */}
-        <marquee
-          className="slide"
-          width="50%"
-          scrollamount="4"
-          onmouseover="this.stop();"
-          onmouseout="this.start();"
-        >
+        <marquee className="slide" width="50%" scrollamount="4">
           HÀNG 2 TUẦN NHẬN ĐỔI - GIÀY NỬA NĂM BẢO HÀNH
         </marquee>
       </div>

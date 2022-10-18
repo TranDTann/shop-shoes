@@ -1,0 +1,105 @@
+.wrapper {
+  padding: 0 15px;
+  margin-bottom: 20px;
+  padding-bottom: 30px;
+
+  &:hover .main-img {
+    display: none;
+  }
+}
+
+.wrapper:hover .second-img {
+  display: block;
+}
+
+.wrapper:hover .view-detail {
+  display: block;
+}
+
+.header {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.img {
+  width: 100%;
+  padding-bottom: 12px;
+  object-fit: cover;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.second-img {
+  display: none;
+}
+
+.icon-heart {
+  position: absolute;
+  bottom: 24px;
+  right: 6px;
+  font-size: 3.2rem;
+  color: #fff;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.limited {
+  position: absolute;
+  background-color: #004e9b;
+  font-style: italic;
+  color: #fff;
+  font-weight: 500;
+  line-height: 1.6rem;
+  top: 20px;
+  width: 50%;
+  padding: 7px 10px;
+}
+
+.view-detail {
+  position: absolute;
+  width: 32%;
+  background-color: var(--orange);
+  font-size: 1.6rem;
+  padding: 15px 10px;
+  border-radius: 3px;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  border: none;
+  display: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.new-arrival {
+  color: var(--orange);
+  font-size: 1.7rem;
+  font-style: italic;
+  border-bottom: 1px solid #333;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+}
+
+.name {
+  padding: 0 4px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.4rem;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    color: var(--orange);
+    cursor: pointer;
+  }
+}
+
+.color {
+  padding: 10px 0;
+}

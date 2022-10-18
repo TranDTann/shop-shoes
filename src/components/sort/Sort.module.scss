@@ -1,0 +1,62 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-price {
+  position: relative;
+  width: 16%;
+}
+
+.btn-select {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  padding: 8px 4px;
+  border-radius: 3px;
+  color: rgb(63, 61, 61);
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: #333;
+  }
+}
+
+.icon-down {
+  margin-left: 8px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid rgb(63, 61, 61);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+}
+
+.select-list {
+  position: absolute;
+  z-index: 1;
+  list-style: none;
+  color: rgb(63, 61, 61);
+  font-size: 1.4rem;
+  width: 140%;
+  right: 0;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 1px 1px 1px #ccc;
+  background-color: #fff;
+  text-align: left;
+}
+
+.select-list li {
+  padding: 6px;
+  &:hover {
+    cursor: pointer;
+    background-color: #e9ecef;
+  }
+}

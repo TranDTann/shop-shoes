@@ -36,13 +36,15 @@
   display: flex;
   list-style: none;
 }
-
-.navbar-item {
+.btn-tab {
   padding: 0 20px;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.95);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: var(--search-height);
+  border: none;
+  background-color: transparent;
+  font-family: "Roboto";
 
   &:hover {
     cursor: pointer;

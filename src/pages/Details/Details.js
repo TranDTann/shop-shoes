@@ -1,3 +1,4 @@
+import { Link, useParams } from "react-router-dom";
 import {
   faCartPlus,
   faChevronDown,
@@ -6,35 +7,51 @@ import {
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import className from "classnames/bind";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./Details.module.scss";
+import { productListSelector } from "../../redux/selectors";
+import { addToCart } from "../../components/products/ProductsSlice";
 
 const cx = className.bind(styles);
 
 function Details() {
+  const productList = useSelector(productListSelector);
+
+  let { slug } = useParams();
+  let product = productList.find((product) => product.slug === slug);
+
+  const dispatch = useDispatch();
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>
-        <button className={cx("return-shop")}>
+        <Link className={cx("return-shop")} to="/products">
           <FontAwesomeIcon className={cx("icon-left")} icon={faLeftLong} />
           QUAY LẠI SHOP
-        </button>
+        </Link>
       </div>
       <div className={cx("detail-product", "row")}>
         <div className={cx("img-product", "c-7")}>
-          <img src="https://i.imgur.com/b8oaZn0.jpg" alt="" />
+          <img src={product.images[0].url} alt="" />
         </div>
-        <div className={cx("info-product")}>
-          <h2>Name product</h2>
+        <div className={cx("info-product", "c-5")}>
+          <h2>{product.name} </h2>
           <div className={cx("info-item")}>
-            <p>Mã sản phẩm: </p>
-            <p>Tình trạng: </p>
+            <p>Mã sản phẩm: {product.slug}</p>
+            <p>Tình trạng: {product.status}</p>
           </div>
           <div className={cx("price")}>
-            <h3 style={{ color: "#f15e2c", fontSize: "24px" }}>0 VND</h3>
-            <p>Đã Bán: </p>
+            <h3 style={{ color: "#f15e2c", fontSize: "24px" }}>
+              {product.price} VND
+            </h3>
+            <p>Đã Bán: {product.sold}</p>
           </div>
-          <p className={cx("des-product")}>ABCDEF... Mo ta san pham</p>
+          <div className={cx("dot-line")}></div>
+
+          <p className={cx("des-product")}>{product.overview}</p>
           <div className={cx("dot-line")}></div>
 
           <div className={cx("select")}>
@@ -59,7 +76,10 @@ function Details() {
             </div>
           </div>
           <div className={cx("action")}>
-            <button className={cx("add")}>
+            <button
+              className={cx("add")}
+              onClick={() => handleAddToCart(product)}
+            >
               <FontAwesomeIcon className={cx("icon-cart")} icon={faCartPlus} />
               ADD TO CART
             </button>
@@ -73,10 +93,10 @@ function Details() {
                 icon={faChevronDown}
               />
             </h3>
-            <p>Gender: </p>
-            <p>Size Run</p>
-            <p>Upper: </p>
-            <p>Outsole: </p>
+            <p>Gender: {product.info[0]}</p>
+            <p>Size Run: {product.info[1]}</p>
+            <p>Upper: {product.info[2]} </p>
+            <p>Outsole: {product.info[3]} </p>
           </div>
           <div className={cx("dot-line")}></div>
           <div className={cx("regulation", "sub-title")}>
