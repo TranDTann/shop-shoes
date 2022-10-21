@@ -33,7 +33,7 @@ function Sort({ productList, handleSort }) {
 
   return (
     <div className={cx("wrapper")}>
-      <p>{productList.length} items</p>
+      <p className={cx("quantity-product")}>{productList.length} items</p>
 
       <div className={cx("select-price")} ref={ref}>
         <button

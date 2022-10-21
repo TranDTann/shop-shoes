@@ -1,13 +1,15 @@
 import className from "classnames/bind";
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
+  favouritesProductSelector,
   filterObjectSelector,
   productListSelector,
+  slugFavouritesProductSelector,
 } from "../../redux/selectors";
 import ProductItem from "../ProductItem/ProductItem";
-import { fetchProducts } from "./ProductsSlice";
+import { fetchProductFavourite, fetchProducts } from "./ProductsSlice";
 import styles from "./ProductList.module.scss";
 import Sort from "../sort/Sort";
 
@@ -18,18 +20,20 @@ function ProductList({ gender }) {
   const [value, setValue] = useState(0);
 
   let productList = useSelector(productListSelector);
-  console.log(productList);
   const dispatch = useDispatch();
   const filterObject = useSelector(filterObjectSelector);
-  console.log(filterObject);
 
   const handleSort = (type, value) => {
     setType(type);
     setValue(value);
   };
 
+  const arrFavouritesProduct = useSelector(favouritesProductSelector);
+  const slugFavouritesProduct = useSelector(slugFavouritesProductSelector);
+
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchProductFavourite());
   }, []);
 
   if (gender === "men") {
@@ -126,7 +130,12 @@ function ProductList({ gender }) {
       <div className={cx("productList", "row")}>
         {productList.map((product, index) => (
           <div className={cx("c-4")}>
-            <ProductItem key={index} product={product} />
+            <ProductItem
+              key={index}
+              product={product}
+              arrFavouritesProduct={arrFavouritesProduct}
+              slugFavouritesProduct={slugFavouritesProduct}
+            />
           </div>
         ))}
       </div>

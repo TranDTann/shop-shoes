@@ -3,6 +3,11 @@
   justify-content: space-between;
 }
 
+.quantity-product {
+  display: flex;
+  align-items: center;
+}
+
 .select-price {
   position: relative;
   width: 16%;

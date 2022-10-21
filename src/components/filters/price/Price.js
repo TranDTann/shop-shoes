@@ -31,7 +31,9 @@ function Price() {
 
   const handleOptionPrice = (e) => {
     let updatePrice = e.target.value;
-    dispatch(priceOption(updatePrice));
+    let floor = Math.floor(updatePrice / 1000);
+    let mod = updatePrice % 1000;
+    dispatch(priceOption(`${floor},${mod}00`));
   };
 
   return (

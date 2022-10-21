@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { httpRequest } from "../../utils/httpRequest";
-import { changeTabProduct, productFilter } from "../filters/FiltersSlice";
 
 const ProductsSlice = createSlice({
   name: "productList",
   initialState: {
     products: [],
     cart: [],
-    tabProduct: "all",
+    favourites: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -26,23 +25,30 @@ const ProductsSlice = createSlice({
           state.cart.push(action.payload);
         }
       })
+
       .addCase(fetchProductCart.fulfilled, (state, action) => {
         state.cart = action.payload;
       })
-      .addCase(changeTabProduct.fulfilled, (state, action) => {
-        state.tabProduct = action.meta.arg;
-        let newProducts = [...state.products];
-        if (state.tabProduct === "men") {
-          newProducts = newProducts.filter(
-            (product) => product.gender === "men" || product.gender === "unisex"
+
+      .addCase(fetchProductFavourite.fulfilled, (state, action) => {
+        state.favourites = action.payload;
+      })
+
+      .addCase(favouritesProduct.fulfilled, (state, action) => {
+        let arrSlug = state.favourites.map((item) => item.slug);
+        if (arrSlug.includes(action.payload.slug)) {
+          state.favourites = state.favourites.filter(
+            (item) => item.slug !== action.payload.slug
           );
-        } else if (state.tabProduct === "women") {
-          newProducts = newProducts.filter(
-            (product) =>
-              product.gender === "women" || product.gender === "unisex"
-          );
+        } else {
+          state.favourites.push(action.payload);
         }
-        state.products = newProducts;
+      })
+
+      .addCase(deleteProductFavourite.fulfilled, (state, action) => {
+        state.favourites = state.favourites.filter(
+          (product) => product.id !== action.payload.id
+        );
       });
   },
 });
@@ -76,6 +82,42 @@ export const fetchProductCart = createAsyncThunk(
       return res.data;
     } catch (err) {
       console.log("errAddToCart", err);
+    }
+  }
+);
+
+export const favouritesProduct = createAsyncThunk(
+  "products/favouritesProduct",
+  async (data) => {
+    try {
+      const res = await httpRequest.post("/favourites", data);
+      return res.data;
+    } catch (err) {
+      console.log("errFavouritesProduct", err);
+    }
+  }
+);
+
+export const deleteProductFavourite = createAsyncThunk(
+  "products/fetchProductFavourite",
+  async (id) => {
+    try {
+      const res = await httpRequest.delete(`/favourites/${id}`);
+      return res.data;
+    } catch (err) {
+      console.log("errDeleteProductFavourite", err);
+    }
+  }
+);
+
+export const fetchProductFavourite = createAsyncThunk(
+  "favourites/fetchProductFavourite",
+  async () => {
+    try {
+      const res = await httpRequest.get("/favourites");
+      return res.data;
+    } catch (err) {
+      console.log("errFetchProductFavourite", err);
     }
   }
 );

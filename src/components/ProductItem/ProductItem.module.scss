@@ -35,16 +35,24 @@
   display: none;
 }
 
-.icon-heart {
+.heart {
   position: absolute;
   bottom: 24px;
   right: 6px;
   font-size: 3.2rem;
   color: #fff;
+  border: none;
+  padding: 4px;
+  background-color: transparent;
 
   &:hover {
     cursor: pointer;
   }
+}
+
+.svg-heart {
+  display: flex;
+  align-items: center;
 }
 
 .limited {

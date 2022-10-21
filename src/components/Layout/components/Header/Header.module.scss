@@ -40,7 +40,7 @@
   padding: 0 20px;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.95);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   line-height: var(--search-height);
   border: none;
   background-color: transparent;
@@ -53,10 +53,104 @@
 }
 
 .heart-icon {
+  position: relative;
   font-size: 2.6rem;
   background-color: transparent;
   border: none;
   line-height: var(--search-height);
+  padding: 8px;
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover .products-favourite {
+    display: block;
+  }
+}
+
+.quantity {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--orange);
+  color: #fff;
+  font-size: 1.2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.products-favourite {
+  position: absolute;
+  right: 0;
+  display: none;
+  max-height: 80vh;
+  width: 300px;
+  overflow: auto;
+  background-color: #fbfafa;
+  box-shadow: 3px 3px 10px 0 hsl(0deg 0% 39% / 30%);
+  text-align: left;
+  border-radius: 1rem 0 1rem 1rem;
+}
+
+.product-item {
+  padding: 10px;
+  border-bottom: 1px solid rgb(198, 197, 197);
+
+  &:hover {
+    background-color: rgb(252, 244, 244);
+  }
+}
+
+.img-product {
+  object-fit: contain;
+  width: 100%;
+}
+
+.info {
+  position: relative;
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+.name-product {
+  font-size: 1.25rem;
+  line-height: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.price-product {
+  position: absolute;
+  bottom: 0;
+  font-size: 1.6rem;
+  color: var(--orange);
+}
+
+.heart {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  right: 4px;
+  font-size: 2rem;
+  bottom: 4px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.noti-empty {
+  font-size: 1.4rem;
+  font-style: italic;
+  padding: 8px;
 }
 
 .cart-icon {
@@ -84,7 +178,7 @@
 
 //header-slide
 .header-slide {
-  padding-top: 72px;
+  padding-top: var(--default-layout-header-height);
   width: 100%;
   height: 112px;
   background-color: #e9ecef;
