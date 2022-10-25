@@ -1,33 +1,41 @@
 import className from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart,
+  faCartShopping,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
 import {
+  cartListSelector,
   favouritesProductSelector,
   slugFavouritesProductSelector,
 } from "../../../../redux/selectors";
 import {
   deleteProductFavourite,
   favouritesProduct,
+  handleIsLogin,
 } from "../../../products/ProductsSlice";
+import DrowdownList from "../../../dropdownList/DropdownList";
 
 const cx = className.bind(styles);
 
 function Header() {
-  const productFavourite = useSelector(favouritesProductSelector);
+  const [isLogin, setIsLogin] = useState(false);
+  const productCart = useSelector(cartListSelector);
 
   const dispatch = useDispatch();
 
-  const arrFavouritesProduct = useSelector(favouritesProductSelector);
+  const productFavourite = useSelector(favouritesProductSelector);
   const slugFavouritesProduct = useSelector(slugFavouritesProductSelector);
 
   const handleClickHeart = (data) => {
-    let productDeleted = arrFavouritesProduct.find(
+    let productDeleted = productFavourite.find(
       (item) => item.slug === data.slug
     );
     if (!slugFavouritesProduct.includes(data.slug)) {
@@ -35,6 +43,12 @@ function Header() {
     } else {
       dispatch(deleteProductFavourite(productDeleted.id));
     }
+  };
+
+  const handleLogin = () => {
+    let updateIslogin = !isLogin;
+    setIsLogin(updateIslogin);
+    dispatch(handleIsLogin(updateIslogin));
   };
 
   return (
@@ -64,57 +78,42 @@ function Header() {
               </Link>
             </div>
             <Search />
-            <button className={cx("heart-icon")}>
+            <button className={cx("heart-icon", "icon-general")}>
               <FontAwesomeIcon icon={faHeart} />
               <div className={cx("quantity")}>{productFavourite.length}</div>
-              <div className={cx("products-favourite")}>
-                {productFavourite.length > 0 ? (
-                  productFavourite.map((product) => (
-                    <div className={cx("product-item", "row")}>
-                      <div className={cx("img", "c-3-6")}>
-                        <img
-                          className={cx("img-product")}
-                          src={product.images[0].url}
-                        />
-                      </div>
-                      <div className={cx("info", "c-8-4")}>
-                        <p
-                          className={cx("name-product")}
-                          style={{ textTransform: "capitalize" }}
-                        >
-                          {product.name}
-                        </p>
-                        <div className={cx("price")}>
-                          <p className={cx("price-product")}>
-                            {`${Math.floor(product.price / 1000)},${
-                              product.price % 1000
-                            }00`}{" "}
-                            VND
-                          </p>
-                          <button
-                            className={cx("heart")}
-                            onClick={() => handleClickHeart(product)}
-                          >
-                            <FontAwesomeIcon
-                              className={cx("icon-heart")}
-                              icon={faCircleXmark}
-                            />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className={cx("noti-empty")}>
-                    Chưa có sản phẩm yêu thích
-                  </div>
-                )}
+
+              <div className={cx("products")}>
+                <DrowdownList
+                  type="heart"
+                  productList={productFavourite}
+                  handleClickHeart={handleClickHeart}
+                />
               </div>
             </button>
-            <button className={cx("cart-icon")}>
+            <button className={cx("cart-icon", "icon-general")}>
               <FontAwesomeIcon icon={faCartShopping} />
+              <div className={cx("quantity")}>{productCart.length}</div>
+              <div className={cx("products")}>
+                <DrowdownList
+                  type="cart"
+                  productList={productCart}
+                  handleClickHeart={handleClickHeart}
+                />
+              </div>
             </button>
-            <button className={cx("log-in")}>Log in</button>
+            {isLogin ? (
+              <button className={cx("user")} onClick={() => handleLogin()}>
+                Tân{" "}
+                <FontAwesomeIcon
+                  className={cx("icon-log-out")}
+                  icon={faRightFromBracket}
+                />
+              </button>
+            ) : (
+              <button className={cx("log-in")} onClick={() => handleLogin()}>
+                Log in
+              </button>
+            )}
           </div>
         </div>
       </div>

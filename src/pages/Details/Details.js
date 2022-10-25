@@ -8,9 +8,13 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import className from "classnames/bind";
 import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
 
 import styles from "./Details.module.scss";
 import {
+  cartListSelector,
   favouritesProductSelector,
   productListSelector,
   slugFavouritesProductSelector,
@@ -18,36 +22,152 @@ import {
 import {
   addToCart,
   deleteProductFavourite,
+  editCart,
   favouritesProduct,
+  fetchProductCart,
 } from "../../components/products/ProductsSlice";
-import { useState } from "react";
 
 const cx = className.bind(styles);
 
 function Details() {
   const [imgMain, setImgMain] = useState(0);
-
+  const [size, setSize] = useState("Choose...");
+  const [quantity, setQuantity] = useState(0);
   const [clickRegulations, setClickRegulations] = useState(false);
   const [clickInsurance, setClickInsurance] = useState(false);
 
+  const dispatch = useDispatch();
+
   const productList = useSelector(productListSelector);
   const slugFavouritesProduct = useSelector(slugFavouritesProductSelector);
+  const arrFavouritesProduct = useSelector(favouritesProductSelector);
 
   let { slug } = useParams();
   let product = productList.find((product) => product.slug === slug);
 
-  let floor = Math.floor(product.price / 1000);
-  console.log(floor);
+  useEffect(() => {
+    dispatch(fetchProductCart());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const cartProduct = useSelector(cartListSelector);
+  console.log(cartProduct);
 
-  let mod = product.price % 1000;
-  console.log(mod);
-
-  const dispatch = useDispatch();
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+    if (size !== "Choose..." && quantity > 0) {
+      if (cartProduct.length > 0) {
+        let newCart = cartProduct.filter((item) => item.slug === product.slug);
+        if (newCart.length > 0) {
+          var i = 0;
+          for (i = 0; i < newCart.length; i++) {
+            if (size === newCart[i].size) {
+              let id = newCart[i].id;
+              let updateQuantity =
+                Number(quantity) + Number(newCart[i].quantity);
+              console.log(updateQuantity);
+              toast.success("Cập nhật giỏ hàng thành công !", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+              dispatch(editCart({ totalQuantity: updateQuantity, id }));
+              break;
+            }
+          }
+          if (i === newCart.length) {
+            toast.success("Thêm vào giỏ hàng thành công !", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            dispatch(
+              addToCart({
+                name: product.name,
+                slug: product.slug,
+                price: product.price,
+                images: product.images,
+                size: size,
+                quantity: Number(quantity),
+              })
+            );
+          }
+        } else {
+          toast.success("Thêm vào giỏ hàng thành công !", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          dispatch(
+            addToCart({
+              name: product.name,
+              slug: product.slug,
+              price: product.price,
+              images: product.images,
+              size: size,
+              quantity: Number(quantity),
+            })
+          );
+        }
+      } else {
+        toast.success("Thêm vào giỏ hàng thành công !", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        dispatch(
+          addToCart({
+            name: product.name,
+            slug: product.slug,
+            price: product.price,
+            images: product.images,
+            size: size,
+            quantity: Number(quantity),
+          })
+        );
+      }
+    } else {
+      toast.warn("Vui lòng nhập đủ thông tin về size và số lượng !", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      console.log("Ban can nhap ca size va so luong");
+    }
   };
 
-  const arrFavouritesProduct = useSelector(favouritesProductSelector);
+  const handleChangeSize = (e) => {
+    setSize(e.target.value);
+  };
+
+  const handleChangeQuantity = (e) => {
+    console.log(e.target.value);
+    setQuantity(e.target.value);
+  };
+
   const handleClickHeart = (data) => {
     let productDeleted = arrFavouritesProduct.find(
       (item) => item.slug === data.slug
@@ -59,6 +179,14 @@ function Details() {
     }
   };
 
+  function formatCash(str) {
+    return str
+      .split("")
+      .reverse()
+      .reduce((prev, next, index) => {
+        return (index % 3 ? next : next + ",") + prev;
+      });
+  }
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>
@@ -144,7 +272,7 @@ function Details() {
           </div>
           <div className={cx("price")}>
             <h3 style={{ color: "#f15e2c", fontSize: "24px" }}>
-              {`${floor},${mod}00`} VND
+              {formatCash(String(product.price))} VND
             </h3>
             <p>Đã Bán: {product.sold}</p>
           </div>
@@ -156,7 +284,11 @@ function Details() {
           <div className={cx("select")}>
             <div className={cx("size")}>
               <h3>SIZE</h3>
-              <select className={cx("select-tag")}>
+              <select
+                className={cx("select-tag")}
+                value={size}
+                onChange={(e) => handleChangeSize(e)}
+              >
                 <option>Choose...</option>
                 <option>36</option>
                 <option>37</option>
@@ -171,7 +303,10 @@ function Details() {
             </div>
             <div className={cx("quantity")}>
               <h3>SỐ LƯỢNG</h3>
-              <input />
+              <input
+                value={quantity}
+                onChange={(e) => handleChangeQuantity(e)}
+              />
             </div>
           </div>
           <div className={cx("action")}>
@@ -213,6 +348,18 @@ function Details() {
               )}
             </button>
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
           <div className={cx("params-product", "sub-title")}>
             <h3>
               THÔNG TIN SẢN PHẨM
@@ -223,7 +370,7 @@ function Details() {
             </h3>
             <p>
               Gender:
-              <span className={cx("gender-info")}>{product.info[0]}</span>
+              <span className={cx("gender-info")}> {product.info[0]}</span>
             </p>
             <p>Size Run: {product.info[1]}</p>
             <p>Upper: {product.info[2]} </p>

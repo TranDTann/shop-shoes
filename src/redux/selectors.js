@@ -1,3 +1,5 @@
+export const isLoginSelector = (state) => state.productList.isLogin;
+
 export const productListSelector = (state) => state.productList.products;
 
 export const cartListSelector = (state) => state.productList.cart;

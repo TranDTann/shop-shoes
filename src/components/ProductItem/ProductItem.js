@@ -8,7 +8,6 @@ import {
   deleteProductFavourite,
   favouritesProduct,
 } from "../products/ProductsSlice";
-
 import styles from "./ProductItem.module.scss";
 
 const cx = className.bind(styles);
@@ -27,17 +26,28 @@ function ProductItem({ product, slugFavouritesProduct, arrFavouritesProduct }) {
     }
   };
 
-  let floor = Math.floor(product.price / 1000);
-  let mod = product.price % 1000;
+  function formatCash(str) {
+    return str
+      .split("")
+      .reverse()
+      .reduce((prev, next, index) => {
+        return (index % 3 ? next : next + ",") + prev;
+      });
+  }
 
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>
         <Link to={`/products/${product.slug}`}>
-          <img className={cx("main-img", "img")} src={product.images[0].url} />
+          <img
+            className={cx("main-img", "img")}
+            src={product.images[0].url}
+            alt=""
+          />
           <img
             className={cx("second-img", "img")}
             src={product.images[1].url}
+            alt=""
           />
         </Link>
         <button
@@ -54,10 +64,7 @@ function ProductItem({ product, slugFavouritesProduct, arrFavouritesProduct }) {
                 fill: "#f15e2c",
               }}
             >
-              <path
-                class="cls-1"
-                d="M16.25,8.8749A7.5051,7.5051,0,0,0,7.49,1.4777,7.7789,7.7789,0,0,0,1.25,9.2762v.2422a7.5,7.5,0,0,0,2.1967,5.3033L16.25,27.6249,29.0532,14.8217A7.5,7.5,0,0,0,31.25,9.5184V9.2762a7.7789,7.7789,0,0,0-6.24-7.7985,7.505,7.505,0,0,0-8.76,7.3972"
-              />
+              <path d="M16.25,8.8749A7.5051,7.5051,0,0,0,7.49,1.4777,7.7789,7.7789,0,0,0,1.25,9.2762v.2422a7.5,7.5,0,0,0,2.1967,5.3033L16.25,27.6249,29.0532,14.8217A7.5,7.5,0,0,0,31.25,9.5184V9.2762a7.7789,7.7789,0,0,0-6.24-7.7985,7.505,7.505,0,0,0-8.76,7.3972" />
             </svg>
           ) : (
             <FontAwesomeIcon
@@ -79,7 +86,7 @@ function ProductItem({ product, slugFavouritesProduct, arrFavouritesProduct }) {
         {product.name}
       </Link>
       <p className={cx("color")}>{product.color}</p>
-      <h4>{`${floor},${mod}00`} VND</h4>
+      <h4 className={cx("price")}>{formatCash(String(product.price))} VND</h4>
     </div>
   );
 }

@@ -9,6 +9,7 @@ function Sort({ productList, handleSort }) {
   const [sort, setSort] = useState("Sắp xếp theo");
   const [clickSort, setClickSort] = useState(false);
   const ref = useRef(null);
+
   const handleSelectSort = (type, value, name) => {
     setSort(name);
     setClickSort(!clickSort);
@@ -21,7 +22,6 @@ function Sort({ productList, handleSort }) {
         setClickSort(false);
       }
     };
-
     document.addEventListener("click", handleClickoutside);
     return () => document.removeEventListener("click", handleClickoutside);
   }, []);
@@ -64,7 +64,7 @@ function Sort({ productList, handleSort }) {
               }
               onClick={() => handleSelectSort("name", 1, "Tên A - Z")}
             >
-              <a href="#">Tên A - Z</a>
+              Tên A - Z
             </li>
             <li
               style={
@@ -77,7 +77,7 @@ function Sort({ productList, handleSort }) {
               }
               onClick={() => handleSelectSort("name", -1, "Tên Z - A")}
             >
-              <a href="#">Tên Z - A</a>
+              Tên Z - A
             </li>
             <li
               style={
@@ -90,7 +90,7 @@ function Sort({ productList, handleSort }) {
               }
               onClick={() => handleSelectSort("price", 1, "Giá tăng dần")}
             >
-              <a href="#">Giá tăng dần</a>
+              Giá tăng dần
             </li>
             <li
               style={
@@ -103,7 +103,7 @@ function Sort({ productList, handleSort }) {
               }
               onClick={() => handleSelectSort("price", -1, "Giá giảm dần")}
             >
-              <a href="#">Giá giảm dần</a>
+              Giá giảm dần
             </li>
             <li
               style={
@@ -116,7 +116,7 @@ function Sort({ productList, handleSort }) {
               }
               onClick={() => handleSelectSort("seller", -1, "Top Seller")}
             >
-              <a href="#">Top Seller</a>
+              Top Seller
             </li>
           </ul>
         )}

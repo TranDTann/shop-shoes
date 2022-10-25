@@ -9,7 +9,11 @@ import {
   slugFavouritesProductSelector,
 } from "../../redux/selectors";
 import ProductItem from "../ProductItem/ProductItem";
-import { fetchProductFavourite, fetchProducts } from "./ProductsSlice";
+import {
+  fetchProductCart,
+  fetchProductFavourite,
+  fetchProducts,
+} from "./ProductsSlice";
 import styles from "./ProductList.module.scss";
 import Sort from "../sort/Sort";
 
@@ -34,6 +38,8 @@ function ProductList({ gender }) {
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchProductFavourite());
+    dispatch(fetchProductCart());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (gender === "men") {

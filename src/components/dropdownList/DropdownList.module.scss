@@ -1,0 +1,140 @@
+.wrapper {
+  background-color: #e9ecef;
+  width: 300px;
+  max-height: 72vh;
+  position: absolute;
+  right: 0;
+  top: 8px;
+  overflow: auto;
+  box-shadow: 3px 3px 10px 0 hsl(0deg 0% 39% / 30%);
+  text-align: left;
+  border-radius: 1rem 0 0 0;
+}
+.products {
+  position: relative;
+  background-color: #fdf6f6;
+  width: 95%;
+}
+
+.title-header {
+  font-size: 1.5rem;
+  font-style: italic;
+  padding: 0 8px;
+  background-color: #e9ecef;
+  color: rgb(138, 136, 136);
+}
+
+.product-item {
+  position: relative;
+  padding: 10px;
+  border-bottom: 1px solid rgb(198, 197, 197);
+
+  &:hover {
+    background-color: rgb(246, 235, 235);
+  }
+}
+
+.img-product {
+  object-fit: contain;
+  width: 100%;
+}
+
+.info {
+  position: relative;
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+.name-product {
+  font-size: 1.25rem;
+  line-height: 1.6rem;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price-product {
+  position: absolute;
+  bottom: 0;
+  font-size: 1.6rem;
+  color: var(--orange);
+}
+
+.heart {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  right: 4px;
+  font-size: 2rem;
+  bottom: 4px;
+  z-index: 1;
+
+  &:hover {
+    cursor: pointer;
+    font-size: 2.2rem;
+  }
+}
+
+.info-buy {
+  position: absolute;
+  display: flex;
+  bottom: 30px;
+  left: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6rem;
+}
+
+.info-quantity {
+  margin-left: 8px;
+}
+
+.btn-trash {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 2rem;
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+    font-size: 2.2rem;
+  }
+}
+
+.noti-empty {
+  font-size: 1.4rem;
+  font-style: italic;
+  padding: 24px;
+}
+
+.footer {
+  position: fixed;
+  background-color: #fdf6f6;
+  width: 300px;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.price-total {
+  padding: 8px;
+  background-color: #e9ecef;
+}
+
+.btn-go-to-cart {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  background-color: var(--orange);
+  border-radius: 0 0 1rem 1rem;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.9;
+  }
+}

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { httpRequest } from "../../utils/httpRequest";
+import { searchCart, searchProduct } from "../filters/FiltersSlice";
 
 const ProductsSlice = createSlice({
   name: "productList",
@@ -7,27 +8,60 @@ const ProductsSlice = createSlice({
     products: [],
     cart: [],
     favourites: [],
+    isLogin: false,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(handleIsLogin.fulfilled, (state, action) => {
+        state.isLogin = action.meta.arg;
+      })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.products = action.payload;
       })
 
       .addCase(addToCart.fulfilled, (state, action) => {
-        console.log("dasdasd", action);
+        console.log(action);
         let productSlug = state.cart.map((item) => item.slug);
+        let productSize = state.cart.map((item) => item.size);
+        console.log(productSize);
         console.log(productSlug);
-        if (productSlug.includes(action.payload.slug)) {
-          state.cart = state.cart;
+        if (
+          productSlug.includes(action.payload.slug) &&
+          productSize.includes(action.payload.size)
+        ) {
+          let a = state.cart.find(
+            (item) =>
+              item.slug === action.payload.slug &&
+              item.size === action.payload.size
+          );
+          console.log(a);
+          a.quantity += Number(action.payload.quantity);
         } else {
           state.cart.push(action.payload);
         }
       })
 
+      .addCase(editCart.fulfilled, (state, action) => {
+        state.cart.map((item) => {
+          if (
+            item.slug === action.payload.slug &&
+            item.size === action.payload.size
+          ) {
+            item.quantity = action.payload.quantity;
+          }
+          return item;
+        });
+      })
+
       .addCase(fetchProductCart.fulfilled, (state, action) => {
         state.cart = action.payload;
+      })
+
+      .addCase(deleteProductCart.fulfilled, (state, action) => {
+        state.cart = state.cart.filter(
+          (product) => product.id !== action.payload.id
+        );
       })
 
       .addCase(fetchProductFavourite.fulfilled, (state, action) => {
@@ -49,9 +83,20 @@ const ProductsSlice = createSlice({
         state.favourites = state.favourites.filter(
           (product) => product.id !== action.payload.id
         );
+      })
+      .addCase(searchProduct.fulfilled, (state, action) => {
+        state.products = action.payload;
+      })
+      .addCase(searchCart.fulfilled, (state, action) => {
+        state.cart = action.payload;
       });
   },
 });
+
+export const handleIsLogin = createAsyncThunk(
+  "products/handleIsLogin",
+  async () => {}
+);
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
@@ -65,14 +110,39 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-export const addToCart = createAsyncThunk("cart/addToCart", async (product) => {
+export const addToCart = createAsyncThunk("cart/addToCart", async (data) => {
+  console.log(data);
   try {
-    const res = await httpRequest.post("/cart", product);
+    const res = await httpRequest.post("/cart", data);
     return res.data;
   } catch (err) {
     console.log("errAddToCart", err);
   }
 });
+
+export const editCart = createAsyncThunk("cart/editCart", async (data) => {
+  console.log(data);
+  try {
+    const res = await httpRequest.put(`/cart/${data.id}`, {
+      quantity: data.totalQuantity,
+    });
+    return res.data;
+  } catch (err) {
+    console.log("errEditCart", err);
+  }
+});
+
+export const deleteProductCart = createAsyncThunk(
+  "cart/deleteProductCart",
+  async (id) => {
+    try {
+      const res = await httpRequest.delete(`/cart/${id}`);
+      return res.data;
+    } catch (err) {
+      console.log("errDeleteProductCart", err);
+    }
+  }
+);
 
 export const fetchProductCart = createAsyncThunk(
   "cart/fetchProductCart",

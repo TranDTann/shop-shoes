@@ -1,11 +1,27 @@
 import className from "classnames/bind";
-import Slideshow from "../../components/Layout/components/Slider/Sider";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
+import Slideshow from "../../components/Layout/components/Slider/Sider";
+import {
+  fetchProductCart,
+  fetchProductFavourite,
+  fetchProducts,
+} from "../../components/products/ProductsSlice";
 import styles from "./Home.module.scss";
 
 const cx = className.bind(styles);
 
 function Home() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchProductFavourite());
+    dispatch(fetchProductCart());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={cx("wrapper")}>
       <Slideshow />

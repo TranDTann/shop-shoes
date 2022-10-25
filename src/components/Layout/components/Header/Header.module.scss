@@ -52,7 +52,7 @@
   }
 }
 
-.heart-icon {
+.icon-general {
   position: relative;
   font-size: 2.6rem;
   background-color: transparent;
@@ -68,8 +68,21 @@
     cursor: pointer;
   }
 
-  &:hover .products-favourite {
+  &:hover .products {
     display: block;
+    will-change: opacity, transform;
+    animation: dropdown 0.8s;
+  }
+}
+
+@keyframes dropdown {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -88,76 +101,28 @@
   height: 20px;
 }
 
-.products-favourite {
-  position: absolute;
-  right: 0;
+.products {
   display: none;
-  max-height: 80vh;
-  width: 300px;
-  overflow: auto;
-  background-color: #fbfafa;
-  box-shadow: 3px 3px 10px 0 hsl(0deg 0% 39% / 30%);
-  text-align: left;
-  border-radius: 1rem 0 1rem 1rem;
 }
 
-.product-item {
-  padding: 10px;
-  border-bottom: 1px solid rgb(198, 197, 197);
-
-  &:hover {
-    background-color: rgb(252, 244, 244);
-  }
-}
-
-.img-product {
-  object-fit: contain;
-  width: 100%;
-}
-
-.info {
-  position: relative;
-  padding-left: 10px;
-  font-weight: 600;
-}
-
-.name-product {
-  font-size: 1.25rem;
-  line-height: 1.6rem;
-  margin-bottom: 10px;
-}
-
-.price-product {
-  position: absolute;
-  bottom: 0;
-  font-size: 1.6rem;
-  color: var(--orange);
-}
-
-.heart {
-  position: absolute;
+.user {
+  width: 9%;
   border: none;
   background-color: transparent;
-  right: 4px;
-  font-size: 2rem;
-  bottom: 4px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #0671dd;
 
   &:hover {
     cursor: pointer;
+    font-size: 1.85 rem;
   }
 }
 
-.noti-empty {
-  font-size: 1.4rem;
-  font-style: italic;
-  padding: 8px;
-}
-
-.cart-icon {
-  font-size: 2.4rem;
-  background-color: transparent;
-  border: none;
-  line-height: var(--search-height);
+.icon-log-out {
+  padding-left: 4px;
+  font-size: 1.8rem;
+  transform: translateY(10%);
 }
 
 .log-in {
@@ -168,7 +133,8 @@
   color: var(--orange);
   padding: 0 15px;
   border-radius: 4px;
-  margin-left: 8px;
+  margin-left: 12px;
+  width: 9%;
 
   &:hover {
     cursor: pointer;

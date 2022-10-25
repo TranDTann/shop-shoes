@@ -24,8 +24,9 @@ function Color() {
   };
 
   let Colors = [...getUnique(productList, "typeColor")];
-  const ColorList = Colors.map((color) => (
+  const ColorList = Colors.map((color, index) => (
     <button
+      key={index}
       className={cx("btn-color")}
       style={{
         backgroundColor: color,

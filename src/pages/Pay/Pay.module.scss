@@ -9,7 +9,12 @@
   justify-content: space-around;
 }
 
+.center .color {
+  background-color: var(--orange);
+}
+
 .btn-item {
+  position: relative;
   width: 30px;
   height: 30px;
   border-radius: 9999px;
@@ -19,26 +24,43 @@
 }
 
 .center {
-}
-
-.center {
-  z-index: 1;
   text-align: center;
   color: var(--orange);
   font-weight: 500;
 }
 
-.line-process {
+.line-process-first {
   position: absolute;
   top: 9px;
+  transform: translateX(2%);
   height: 10px;
-  width: 68%;
+  width: 35%;
   background-color: hsla(0, 0%, 82.7%, 0.6);
+  z-index: -1;
+}
+
+.line-process-second {
+  position: absolute;
+  top: 9px;
+  right: 0;
+  transform: translateX(-50%);
+  height: 10px;
+  width: 35%;
+  background-color: hsla(0, 0%, 82.7%, 0.6);
+  z-index: -1;
+}
+
+.thank-text {
+  font-size: 3.6rem;
+  font-style: italic;
+  text-align: center;
+  padding: 32px 0;
 }
 
 .line {
   border-bottom: 3px solid rgb(214, 214, 214);
   margin-top: 60px;
+  margin-bottom: 12px;
 }
 
 .text-noti {
@@ -73,11 +95,21 @@
   background-color: var(--orange);
   color: #fff;
   margin-right: 10px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.9;
+  }
 }
 
 .btn-remove {
   background-color: #6c757d;
   color: #fff;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.9;
+  }
 }
 
 .add-address {

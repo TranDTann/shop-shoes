@@ -24,8 +24,6 @@ function Status({ filterObject, statusList, setStatusList }) {
     dispatch(listStatus(updateStatusList));
   };
 
-  console.log(statusList);
-
   return (
     <div>
       <button

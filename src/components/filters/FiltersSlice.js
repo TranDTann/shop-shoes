@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { httpRequest } from "../../utils/httpRequest";
 
 const FiltersSlice = createSlice({
   name: "filters",
@@ -115,6 +116,38 @@ export const priceOption = createAsyncThunk(
 export const resetFilterObject = createAsyncThunk(
   "filters/resetFilterObject",
   async (initFilterObject) => {}
+);
+
+export const searchProduct = createAsyncThunk(
+  "filters/searchProduct",
+  async (searchText) => {
+    try {
+      const res = await httpRequest.get("/products", {
+        params: {
+          name: searchText,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.log("errSearchProduct", err);
+    }
+  }
+);
+
+export const searchCart = createAsyncThunk(
+  "filters/searchCart",
+  async (searchText) => {
+    try {
+      const res = await httpRequest.get("/cart", {
+        params: {
+          name: searchText,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.log("errSearchCart", err);
+    }
+  }
 );
 
 export default FiltersSlice;

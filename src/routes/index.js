@@ -1,8 +1,6 @@
 import Home from "../pages/Home/Home";
-
 import Pay from "../pages/Pay/Pay";
 import Cart from "../pages/Cart/Cart";
-
 import HeaderFooter from "../components/Layout/HeaderFooter/HeaderFooter";
 import ProductList from "../components/products/ProductList";
 import Men from "../pages/Men/Men";

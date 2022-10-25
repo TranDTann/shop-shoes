@@ -12,13 +12,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 document.querySelector("title").innerText = "ShoesShop";
 
 root.render(
-  <React.StrictMode>
-    <GlobalStyles>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </GlobalStyles>
-  </React.StrictMode>
+  <GlobalStyles>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </GlobalStyles>
 );
 
 reportWebVitals();

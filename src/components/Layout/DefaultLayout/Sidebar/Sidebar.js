@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterObjectSelector } from "../../../../redux/selectors";
 
 import Color from "../../../filters/color/Color";
-import { listStatus, resetFilterObject } from "../../../filters/FiltersSlice";
+import { resetFilterObject } from "../../../filters/FiltersSlice";
 import Price from "../../../filters/price/Price";
 import Status from "../../../filters/status/Status";
 import Style from "../../../filters/style/Style";
@@ -24,7 +24,6 @@ function Sidebar() {
 
   const dispatch = useDispatch();
 
-  console.log(filterObject);
   let initFilterObject = {
     saleOff: false,
     onlineOnly: false,

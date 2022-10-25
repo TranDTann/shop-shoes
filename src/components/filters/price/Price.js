@@ -1,39 +1,19 @@
 import className from "classnames/bind";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  filterObjectSelector,
-  productListSelector,
-} from "../../../redux/selectors";
+import { filterObjectSelector } from "../../../redux/selectors";
 import styles from "../../Layout/DefaultLayout/Sidebar/Sidebar.module.scss";
 import { priceOption } from "../FiltersSlice";
 
 const cx = className.bind(styles);
 
 function Price() {
-  const getUnique = (items, key) => {
-    return [...new Set(items.map((item) => item[key]))];
-  };
-
   const filterObject = useSelector(filterObjectSelector);
-  const productList = useSelector(productListSelector);
-  const priceList = productList.map((product) => product.price);
-
-  let priceMax = priceList[0];
-  const arrPriceLenght = priceList.length;
-  for (var i = 0; i < arrPriceLenght; i++) {
-    if (priceList[i] > priceMax) {
-      priceMax = priceList[i];
-    }
-  }
 
   const dispatch = useDispatch();
 
   const handleOptionPrice = (e) => {
-    let updatePrice = e.target.value;
-    let floor = Math.floor(updatePrice / 1000);
-    let mod = updatePrice % 1000;
-    dispatch(priceOption(`${floor},${mod}00`));
+    dispatch(priceOption(e.target.value));
   };
 
   return (
@@ -47,7 +27,7 @@ function Price() {
           className={cx("price-slider")}
           type="range"
           min={0}
-          max={priceMax}
+          max={990000}
           step={1000}
           value={filterObject.price}
           onChange={(e) => handleOptionPrice(e)}

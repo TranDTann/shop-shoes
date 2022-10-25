@@ -36,8 +36,8 @@ function Substance() {
         value={filterObject.substance}
         onChange={(e) => handleSelectSubstance(e)}
       >
-        {substances.map((substance) => (
-          <option className={cx("item")} selected>
+        {substances.map((substance, index) => (
+          <option key={index} className={cx("item")}>
             {substance}
           </option>
         ))}
