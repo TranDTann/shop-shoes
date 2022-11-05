@@ -47,7 +47,10 @@ function ProductItem({ product }) {
         {product.limitedEdition && (
           <p className={cx("limited")}>Limited Edition</p>
         )}
-        <button className={cx("view-detail")}>XEM CHI TIẾT</button>
+        <Link to={`/products/${product.slug}`}>
+          {" "}
+          <button className={cx("view-detail")}>XEM CHI TIẾT</button>
+        </Link>
       </div>
       {product.newArrival && <p className={cx("new-arrival")}>New Arrival</p>}
       <Link className={cx("name")} to={`/products/${product.slug}`}>
