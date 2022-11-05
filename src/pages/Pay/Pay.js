@@ -1,11 +1,8 @@
 import className from "classnames/bind";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-import {
-  fetchProductCart,
-  fetchProductFavourite,
-} from "../../components/products/ProductsSlice";
 import { isLoginSelector } from "../../redux/selectors";
 import styles from "./Pay.module.scss";
 
@@ -13,15 +10,11 @@ const cx = className.bind(styles);
 
 function Pay() {
   const [address, setAddress] = useState(false);
-  const dispatch = useDispatch();
+  const isLogin = useSelector(isLoginSelector);
 
   useEffect(() => {
-    dispatch(fetchProductCart());
-    dispatch(fetchProductFavourite());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    window.scrollTo(0, 0);
   }, []);
-
-  const isLogin = useSelector(isLoginSelector);
 
   return (
     <div className={cx("wrapper")}>

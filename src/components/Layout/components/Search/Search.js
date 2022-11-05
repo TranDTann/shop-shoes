@@ -4,7 +4,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 
 import styles from "./Search.module.scss";
-import { searchCart, searchProduct } from "../../../filters/FiltersSlice";
+import { searchText } from "../../../../redux/reducers/FiltersSlice";
 
 const cx = className.bind(styles);
 
@@ -12,8 +12,7 @@ function Search() {
   const dispatch = useDispatch();
 
   const handleSearch = (e) => {
-    dispatch(searchProduct(e.target.value));
-    dispatch(searchCart(e.target.value));
+    dispatch(searchText(e.target.value));
   };
 
   return (

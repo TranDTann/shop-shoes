@@ -16,6 +16,7 @@ function Slideshow() {
     slidesToScroll: 1,
     autoplay: true,
   };
+
   return (
     <div>
       <Slider {...settings}>

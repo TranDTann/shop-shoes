@@ -1,16 +1,10 @@
 .wrapper {
   display: flex;
-  justify-content: space-between;
-}
-
-.quantity-product {
-  display: flex;
-  align-items: center;
+  justify-content: flex-end;
 }
 
 .select-price {
   position: relative;
-  width: 16%;
 }
 
 .btn-select {

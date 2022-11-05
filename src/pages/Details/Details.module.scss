@@ -2,10 +2,24 @@
   position: relative;
 }
 
+@media screen and (min-width: 1140px) {
+  .wrapper {
+    width: 1200px;
+    margin: 0 auto;
+  }
+}
+
 .header {
   padding: 20px 15px;
   border-bottom: 2px solid #333;
   color: #fff;
+}
+
+@media screen and (min-width: 1140px) {
+  .header {
+    padding: 25px 0;
+    border-bottom: 3px solid #333;
+  }
 }
 
 .return-shop {
@@ -22,7 +36,7 @@
 }
 
 .detail-product {
-  padding: 0 20px;
+  padding: 0 28px;
   margin: 30px 0;
 }
 
@@ -35,8 +49,17 @@
   padding: 0 20px;
 }
 
+@media screen and (min-width: 1140px) {
+  .img-product {
+    padding: 0;
+  }
+}
+
 .img-product img {
   width: 85%;
+}
+.img-item {
+  box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
 
 .img-other {
@@ -161,12 +184,6 @@
   &:hover {
     cursor: pointer;
   }
-}
-
-.icon-heart {
-  padding: 2px 4px;
-  font-size: 3.2rem;
-  color: var(--orange);
 }
 
 .toast {

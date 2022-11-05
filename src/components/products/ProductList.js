@@ -1,150 +1,124 @@
 import className from "classnames/bind";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import {
-  favouritesProductSelector,
-  filterObjectSelector,
+  productListFilterSelector,
   productListSelector,
-  slugFavouritesProductSelector,
+  searchTextSelector,
 } from "../../redux/selectors";
 import ProductItem from "../ProductItem/ProductItem";
-import {
-  fetchProductCart,
-  fetchProductFavourite,
-  fetchProducts,
-} from "./ProductsSlice";
+import { setCurrTab, setProduct } from "../../redux/reducers/ProductsSlice";
 import styles from "./ProductList.module.scss";
 import Sort from "../sort/Sort";
+import Skeleton from "react-loading-skeleton";
 
 const cx = className.bind(styles);
 
 function ProductList({ gender }) {
-  const [type, setType] = useState("");
-  const [value, setValue] = useState(0);
-
-  let productList = useSelector(productListSelector);
+  const [type, setType] = useState();
   const dispatch = useDispatch();
-  const filterObject = useSelector(filterObjectSelector);
 
-  const handleSort = (type, value) => {
-    setType(type);
-    setValue(value);
-  };
+  let productListFilter = useSelector(productListFilterSelector);
+  let productList = useSelector(productListSelector);
 
-  const arrFavouritesProduct = useSelector(favouritesProductSelector);
-  const slugFavouritesProduct = useSelector(slugFavouritesProductSelector);
+  const searchText = useSelector(searchTextSelector);
+
+  productListFilter = productListFilter.filter((product) =>
+    product.name.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   useEffect(() => {
-    dispatch(fetchProducts());
-    dispatch(fetchProductFavourite());
-    dispatch(fetchProductCart());
+    switch (type?.type) {
+      case "nameIncrease": {
+        dispatch(
+          setProduct(
+            [...productListFilter].sort((a, b) => (a.name <= b.name ? -1 : 1))
+          )
+        );
+        break;
+      }
+      case "nameDecrease": {
+        dispatch(
+          setProduct(
+            [...productListFilter].sort((a, b) => (a.name > b.name ? -1 : 1))
+          )
+        );
+        break;
+      }
+      case "priceIncrease": {
+        dispatch(
+          setProduct(
+            [...productListFilter].sort((a, b) => (a.price <= b.price ? -1 : 1))
+          )
+        );
+        break;
+      }
+      case "priceDecrease": {
+        dispatch(
+          setProduct(
+            [...productListFilter].sort((a, b) => (a.price > b.price ? -1 : 1))
+          )
+        );
+        break;
+      }
+      case "topSeller": {
+        dispatch(
+          setProduct(
+            [...productListFilter].sort((a, b) => (a.sold > b.sold ? -1 : 1))
+          )
+        );
+        break;
+      }
+      default:
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type?.type]);
+
+  useEffect(() => {
+    dispatch(setCurrTab("all"));
   }, []);
 
   if (gender === "men") {
-    productList = productList.filter(
+    productListFilter = productListFilter.filter(
       (product) => product.gender === "men" || product.gender === "unisex"
     );
   }
-
   if (gender === "women") {
-    productList = productList.filter(
+    productListFilter = productListFilter.filter(
       (product) => product.gender === "women" || product.gender === "unisex"
     );
   }
 
-  if (type === "name") {
-    productList = productList.slice().sort((a, b) => {
-      if (a.name > b.name) return value;
-      else if (a.name < b.name) return -value;
-      else return 0;
-    });
-  } else if (type === "price") {
-    productList = productList.slice().sort((a, b) => {
-      if (a.price > b.price) return value;
-      else if (a.price < b.price) return -value;
-      else return 0;
-    });
-  } else {
-    productList = productList.slice().sort((a, b) => b.sold - a.sold);
+  let loading = true;
+  if (productList.length) {
+    loading = false;
   }
-
-  if (filterObject.limitedEdition) {
-    productList = productList.filter(
-      (product) => product.limitedEdition === filterObject.limitedEdition
-    );
-  }
-
-  if (filterObject.onlineOnly) {
-    productList = productList.filter(
-      (product) => product.onlineOnly === filterObject.onlineOnly
-    );
-  }
-
-  if (filterObject.saleOff) {
-    productList = productList.filter(
-      (product) => product.saleOff === filterObject.saleOff
-    );
-  }
-
-  if (filterObject.bestSeller) {
-    productList = productList.filter(
-      (product) => product.bestSeller === filterObject.bestSeller
-    );
-  }
-
-  if (filterObject.newArrival) {
-    productList = productList.filter(
-      (product) => product.newArrival === filterObject.newArrival
-    );
-  }
-
-  if (filterObject.style !== "All") {
-    productList = productList.filter(
-      (product) => product.style === filterObject.style
-    );
-  }
-
-  if (filterObject.type !== "All") {
-    productList = productList.filter(
-      (product) => product.type === filterObject.type
-    );
-  }
-
-  if (filterObject.substance !== "ALL") {
-    productList = productList.filter(
-      (product) => product.by === filterObject.substance
-    );
-  }
-
-  if (filterObject.color !== "") {
-    productList = productList.filter(
-      (product) => product.typeColor === filterObject.color
-    );
-  }
-
-  productList = productList.filter(
-    (product) => product.price <= filterObject.price
-  );
 
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>
-        <Sort productList={productList} handleSort={handleSort} />
+        <p className={cx("quantity-product")}>
+          Tổng: {productListFilter.length} sản phẩm
+        </p>
+        <Sort type={type} setType={setType} />
       </div>
-      <div className={cx("productList", "row")}>
-        {productList.map((product, index) => (
-          <div className={cx("c-4")}>
-            <ProductItem
-              key={index}
-              product={product}
-              arrFavouritesProduct={arrFavouritesProduct}
-              slugFavouritesProduct={slugFavouritesProduct}
-            />
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <Skeleton count={50} />
+      ) : (
+        <div className={cx("productList", "row")}>
+          {productListFilter.length ? (
+            productListFilter.map((product, index) => (
+              <div className={cx("c-4")}>
+                <ProductItem key={index} product={product} />
+              </div>
+            ))
+          ) : (
+            <p className={cx("text-sorry")}>Sorry, can't find your result</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

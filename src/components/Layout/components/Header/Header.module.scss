@@ -21,6 +21,13 @@
   align-items: center;
 }
 
+@media screen and (min-width: 1140px) {
+  .inner {
+    width: 1140px;
+    padding: 0 30px;
+  }
+}
+
 .logo {
   transform: translateY(5%);
   width: 32px;
@@ -36,6 +43,7 @@
   display: flex;
   list-style: none;
 }
+
 .btn-tab {
   padding: 0 20px;
   font-weight: 700;
@@ -50,6 +58,14 @@
     cursor: pointer;
     color: var(--orange);
   }
+}
+
+.active {
+  color: var(--orange);
+}
+
+.cart-icon {
+  transform: translateX(8px);
 }
 
 .icon-general {
@@ -71,7 +87,7 @@
   &:hover .products {
     display: block;
     will-change: opacity, transform;
-    animation: dropdown 0.8s;
+    animation: dropdown 0.3s;
   }
 }
 

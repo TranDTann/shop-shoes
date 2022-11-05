@@ -7,48 +7,33 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
 import {
   cartListSelector,
+  currTabSelector,
   favouritesProductSelector,
-  slugFavouritesProductSelector,
+  isLoginSelector,
 } from "../../../../redux/selectors";
-import {
-  deleteProductFavourite,
-  favouritesProduct,
-  handleIsLogin,
-} from "../../../products/ProductsSlice";
 import DrowdownList from "../../../dropdownList/DropdownList";
+import { setCurrTab, setLogin } from "../../../../redux/reducers/ProductsSlice";
 
 const cx = className.bind(styles);
 
 function Header() {
-  const [isLogin, setIsLogin] = useState(false);
   const productCart = useSelector(cartListSelector);
-
+  const productFavourite = useSelector(favouritesProductSelector);
   const dispatch = useDispatch();
 
-  const productFavourite = useSelector(favouritesProductSelector);
-  const slugFavouritesProduct = useSelector(slugFavouritesProductSelector);
-
-  const handleClickHeart = (data) => {
-    let productDeleted = productFavourite.find(
-      (item) => item.slug === data.slug
-    );
-    if (!slugFavouritesProduct.includes(data.slug)) {
-      dispatch(favouritesProduct(data));
-    } else {
-      dispatch(deleteProductFavourite(productDeleted.id));
-    }
-  };
+  let isLogin = useSelector(isLoginSelector);
 
   const handleLogin = () => {
-    let updateIslogin = !isLogin;
-    setIsLogin(updateIslogin);
-    dispatch(handleIsLogin(updateIslogin));
+    dispatch(setLogin(!isLogin));
+  };
+  const currTab = useSelector(currTabSelector);
+  const handleChangeTab = (tab) => {
+    dispatch(setCurrTab(tab));
   };
 
   return (
@@ -65,16 +50,36 @@ function Header() {
           <div className={cx("colapse-navbar")}>
             <div className={cx("list-navbar")}>
               <Link className={cx("navbar-item")} to="/">
-                <button className={cx("btn-tab")}>HOME</button>
+                <button
+                  className={cx("btn-tab", currTab === "home" && "active")}
+                  onClick={() => handleChangeTab("home")}
+                >
+                  HOME
+                </button>
               </Link>
               <Link className={cx("navbar-item")} to="/products">
-                <button className={cx("btn-tab")}>ALL SHOES</button>
+                <button
+                  className={cx("btn-tab", currTab === "all" && "active")}
+                  onClick={() => handleChangeTab("all")}
+                >
+                  ALL SHOES
+                </button>
               </Link>
               <Link className={cx("navbar-item")} to="/products/men">
-                <button className={cx("btn-tab")}>MEN</button>
+                <button
+                  className={cx("btn-tab", currTab === "men" && "active")}
+                  onClick={() => handleChangeTab("men")}
+                >
+                  MEN
+                </button>
               </Link>
               <Link className={cx("navbar-item")} to="/products/women">
-                <button className={cx("btn-tab")}>WOMEN</button>
+                <button
+                  className={cx("btn-tab", currTab === "women" && "active")}
+                  onClick={() => handleChangeTab("women")}
+                >
+                  WOMEN
+                </button>
               </Link>
             </div>
             <Search />
@@ -83,22 +88,14 @@ function Header() {
               <div className={cx("quantity")}>{productFavourite.length}</div>
 
               <div className={cx("products")}>
-                <DrowdownList
-                  type="heart"
-                  productList={productFavourite}
-                  handleClickHeart={handleClickHeart}
-                />
+                <DrowdownList type="heart" products={productFavourite} />
               </div>
             </button>
             <button className={cx("cart-icon", "icon-general")}>
               <FontAwesomeIcon icon={faCartShopping} />
-              <div className={cx("quantity")}>{productCart.length}</div>
+              <div className={cx("quantity")}>{productCart?.length}</div>
               <div className={cx("products")}>
-                <DrowdownList
-                  type="cart"
-                  productList={productCart}
-                  handleClickHeart={handleClickHeart}
-                />
+                <DrowdownList type="cart" products={productCart} />
               </div>
             </button>
             {isLogin ? (

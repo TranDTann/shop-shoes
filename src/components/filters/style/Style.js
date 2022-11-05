@@ -1,23 +1,30 @@
 import className from "classnames/bind";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 import styles from "../../Layout/DefaultLayout/Sidebar/Sidebar.module.scss";
-import { styleCheck } from "../FiltersSlice";
+import { styleSelected } from "../../../redux/reducers/FiltersSlice";
+import { productListSelector } from "../../../redux/selectors";
 
 const cx = className.bind(styles);
 
 function Style({ filterObject }) {
   const [clickTitle, setClickTitle] = useState(false);
-
   const dispatch = useDispatch();
+  const productList = useSelector(productListSelector);
 
   const handleChangeStyle = (e) => {
     let updateChange = e.target.value;
-    dispatch(styleCheck(updateChange));
+    dispatch(styleSelected(updateChange));
   };
+
+  const getUnique = (items, key) => {
+    return ["All", ...new Set(items.map((item) => item[key]))];
+  };
+  const arrStyles = getUnique(productList, "style");
+
   return (
     <div>
       <button
@@ -33,42 +40,17 @@ function Style({ filterObject }) {
       </button>
       {clickTitle && (
         <ul className={cx("filter-list")}>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type="radio"
-              value="All"
-              checked={filterObject.style === "All"}
-              onChange={(e) => handleChangeStyle(e)}
-            />
-            <p>All</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type="radio"
-              value="low top"
-              checked={filterObject.style === "low top"}
-              onChange={(e) => handleChangeStyle(e)}
-            />
-            <p>Low Top</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type="radio"
-              value="high top"
-              checked={filterObject.style === "high top"}
-              onChange={(e) => handleChangeStyle(e)}
-            />
-            <p>High Top</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type="radio"
-              value="slip-on"
-              checked={filterObject.style === "slip-on"}
-              onChange={(e) => handleChangeStyle(e)}
-            />
-            <p>Slip-On</p>
-          </li>
+          {arrStyles.map((style, index) => (
+            <li key={index} className={cx("filter-item", "mgb-10")}>
+              <input
+                type="radio"
+                value={style}
+                checked={filterObject.style === style}
+                onChange={(e) => handleChangeStyle(e)}
+              ></input>
+              <p style={{ textTransform: "capitalize" }}>{style}</p>
+            </li>
+          ))}
         </ul>
       )}
       <div className={cx("dot-line")}></div>

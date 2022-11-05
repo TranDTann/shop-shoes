@@ -1,14 +1,14 @@
 import className from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 
 import {
-  fetchProductCart,
-  fetchProductFavourite,
-} from "../../components/products/ProductsSlice";
-import { cartListSelector } from "../../redux/selectors";
+  cartListSelector,
+  productListFilterSelector,
+  searchTextSelector,
+} from "../../redux/selectors";
 import styles from "./Cart.module.scss";
 import CartItem from "./CartItem/CartItem";
 
@@ -18,20 +18,30 @@ function Cart() {
   const [codePromotion, setCodePromotion] = useState("");
   const [apply, setApply] = useState(false);
   const refInput = useRef();
-  const dispatch = useDispatch();
+
+  let cartList = useSelector(cartListSelector);
+  const searchText = useSelector(searchTextSelector);
+  const productList = useSelector(productListFilterSelector);
+
   useEffect(() => {
-    dispatch(fetchProductCart());
-    dispatch(fetchProductFavourite());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    window.scrollTo(0, 0);
   }, []);
 
-  const cartList = useSelector(cartListSelector);
-  console.log(cartList);
+  let cartListFilter = cartList.filter((product) => {
+    let productCartItem = productList.find(
+      (item) => item.slug === product.slug
+    );
+    return productCartItem?.name
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+  });
 
-  let totalPrice = cartList.reduce(
-    (total, product) => total + product.price * product.quantity,
-    0
-  );
+  let totalPrice = cartListFilter.reduce((total, product) => {
+    let productCartItem = productList.find(
+      (item) => item.slug === product.slug
+    );
+    return total + productCartItem.price * product.quantity;
+  }, 0);
 
   const handleCodePromotion = () => {
     if (codePromotion === "TANRAU") {
@@ -68,11 +78,19 @@ function Cart() {
       <div className={cx("inner", "row")}>
         <div className={cx("cart", "c-8")}>
           <h3>GIỎ HÀNG</h3>
-          <p>Tổng: {cartList.length} sản phẩm</p>
-          {cartList.length > 0 ? (
-            cartList.map((product) => (
-              <CartItem product={product} formatCash={formatCash} />
-            ))
+          <p>Tổng: {cartListFilter.length} sản phẩm</p>
+          {cartList.length ? (
+            cartListFilter.length > 0 ? (
+              cartListFilter.map((product) => (
+                <CartItem
+                  product={product}
+                  formatCash={formatCash}
+                  cartList={cartListFilter}
+                />
+              ))
+            ) : (
+              <p className={cx("text-sorry")}>Sorry, can't find your result</p>
+            )
           ) : (
             <div className={cx("cart-empty")}>
               <p className={cx("title-cart-empty")}>
@@ -143,7 +161,7 @@ function Cart() {
                 VND
               </h3>
             </div>
-            {cartList.length > 0 ? (
+            {cartListFilter.length > 0 ? (
               <Link to="/pay">
                 <button className={cx("btn-pay")}>TIẾP TỤC THANH TOÁN</button>
               </Link>
@@ -155,7 +173,7 @@ function Cart() {
           </div>
         </div>
       </div>
-      {cartList.length > 0 && (
+      {cartListFilter.length > 0 && (
         <Link to="/products">
           <button className={cx("btn-shopping")}>TIẾP TỤC MUA SẮM</button>
         </Link>

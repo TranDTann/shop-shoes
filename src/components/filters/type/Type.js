@@ -2,21 +2,29 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import className from "classnames/bind";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import { typeSelected } from "../../../redux/reducers/FiltersSlice";
+import { productListSelector } from "../../../redux/selectors";
 import styles from "../../Layout/DefaultLayout/Sidebar/Sidebar.module.scss";
-import { typeCheck } from "../FiltersSlice";
 
 const cx = className.bind(styles);
 
 function Type({ filterObject }) {
   const [clickTitle, setClickTitle] = useState(false);
-
+  const productList = useSelector(productListSelector);
   const dispatch = useDispatch();
+
   const handleChangeType = (e) => {
     let updateChange = e.target.value;
-    dispatch(typeCheck(updateChange));
+    dispatch(typeSelected(updateChange));
   };
+
+  const getUnique = (items, key) => [
+    "All",
+    ...new Set(items.map((item) => item[key])),
+  ];
+  const types = getUnique(productList, "type");
 
   return (
     <div>
@@ -33,42 +41,17 @@ function Type({ filterObject }) {
       </button>
       {clickTitle && (
         <ul className={cx("filter-list")}>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type={"radio"}
-              value="All"
-              checked={filterObject.type === "All"}
-              onChange={(e) => handleChangeType(e)}
-            />
-            <p>All</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type={"radio"}
-              value="vintas"
-              checked={filterObject.type === "vintas"}
-              onChange={(e) => handleChangeType(e)}
-            />
-            <p>Vintas</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type={"radio"}
-              value="urbas"
-              checked={filterObject.type === "urbas"}
-              onChange={(e) => handleChangeType(e)}
-            />
-            <p>Urbas</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              type={"radio"}
-              value="pattas"
-              checked={filterObject.type === "pattas"}
-              onChange={(e) => handleChangeType(e)}
-            />
-            <p>Pattas</p>
-          </li>
+          {types.map((type, index) => (
+            <li key={index} className={cx("filter-item", "mgb-10")}>
+              <input
+                type={"radio"}
+                value={type}
+                checked={filterObject.type === type}
+                onChange={(e) => handleChangeType(e)}
+              />
+              <p style={{ textTransform: "capitalize" }}>{type}</p>
+            </li>
+          ))}
         </ul>
       )}
       <div className={cx("dot-line")}></div>

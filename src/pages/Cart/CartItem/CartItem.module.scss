@@ -1,5 +1,6 @@
 .img-product {
   padding: 20px;
+  width: 100%;
 }
 
 .cart-list {
@@ -16,7 +17,7 @@
 
 .total-price-item {
   position: absolute;
-  right: 0;
+  right: 20px;
   line-height: 1.9rem;
   color: var(--orange);
   font-size: 1.9rem;
@@ -28,10 +29,14 @@
   color: rgb(165, 163, 163);
 }
 
+//action
+.action {
+  position: absolute;
+  bottom: 26px;
+}
+
 .select {
   display: flex;
-  position: absolute;
-  bottom: 0;
 }
 
 .title-select {
@@ -86,8 +91,14 @@
 }
 
 .btn-heart {
+  position: absolute;
+  right: -12px;
   border: none;
   background-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .svg-heart {
@@ -106,7 +117,7 @@
 
 .btn-trash {
   position: absolute;
-  right: 8px;
+  right: -7px;
   bottom: 0;
   border: none;
   background-color: transparent;

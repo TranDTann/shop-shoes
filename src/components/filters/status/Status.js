@@ -5,9 +5,32 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import styles from "../../Layout/DefaultLayout/Sidebar/Sidebar.module.scss";
-import { listStatus } from "../FiltersSlice";
+import { listStatus } from "../../../redux/reducers/FiltersSlice";
 
 const cx = className.bind(styles);
+
+const arrStatus = [
+  {
+    name: "Limited Edition",
+    status: "limitedEdition",
+  },
+  {
+    name: "Online Only",
+    status: "onlineOnly",
+  },
+  {
+    name: "Sale Off",
+    status: "saleOff",
+  },
+  {
+    name: "Best Seller",
+    status: "bestSeller",
+  },
+  {
+    name: "New Arrival",
+    status: "newArrival",
+  },
+];
 
 function Status({ filterObject, statusList, setStatusList }) {
   const [clickTitle, setClickTitle] = useState(false);
@@ -39,46 +62,16 @@ function Status({ filterObject, statusList, setStatusList }) {
       </button>
       {clickTitle && (
         <ul className={cx("filter-list", "filter-list-status")}>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              checked={filterObject.limitedEdition}
-              type="checkbox"
-              onChange={() => handleAddStatusList("Limited Edition")}
-            />
-            <p>Limited Edition</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              checked={filterObject.onlineOnly}
-              type="checkbox"
-              onChange={() => handleAddStatusList("Online Only")}
-            />
-            <p>Online Only</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              checked={filterObject.saleOff}
-              type="checkbox"
-              onChange={() => handleAddStatusList("Sale Off")}
-            />
-            <p>Sale Off</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              checked={filterObject.bestSeller}
-              type="checkbox"
-              onChange={() => handleAddStatusList("Best Seller")}
-            />
-            <p>Best Seller</p>
-          </li>
-          <li className={cx("filter-item", "mgb-10")}>
-            <input
-              checked={filterObject.newArrival}
-              type="checkbox"
-              onChange={() => handleAddStatusList("New Arrival")}
-            />
-            <p>New Arrival</p>
-          </li>
+          {arrStatus.map((item, index) => (
+            <li key={index} className={cx("filter-item", "mgb-10")}>
+              <input
+                checked={filterObject[item.status]}
+                type="checkbox"
+                onChange={() => handleAddStatusList(item.name)}
+              />
+              <p>{item.name}</p>
+            </li>
+          ))}
         </ul>
       )}
       <div className={cx("dot-line")}></div>

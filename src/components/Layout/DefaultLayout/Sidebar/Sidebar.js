@@ -1,12 +1,12 @@
-import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import className from "classnames/bind";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterObjectSelector } from "../../../../redux/selectors";
 
+import { resetFilter } from "../../../../redux/reducers/FiltersSlice";
+import { filterObjectSelector } from "../../../../redux/selectors";
 import Color from "../../../filters/color/Color";
-import { resetFilterObject } from "../../../filters/FiltersSlice";
 import Price from "../../../filters/price/Price";
 import Status from "../../../filters/status/Status";
 import Style from "../../../filters/style/Style";
@@ -17,36 +17,34 @@ import styles from "./Sidebar.module.scss";
 
 const cx = className.bind(styles);
 
+let initFilterObject = {
+  saleOff: false,
+  onlineOnly: false,
+  limitedEdition: false,
+  newArrival: false,
+  bestSeller: false,
+  style: "All",
+  type: "All",
+  price: 990000,
+  color: "",
+  substance: "ALL",
+  removeFilter: false,
+};
+
 function Sidebar() {
   const [statusList, setStatusList] = useState([]);
-
   const filterObject = useSelector(filterObjectSelector);
-
   const dispatch = useDispatch();
-
-  let initFilterObject = {
-    saleOff: false,
-    onlineOnly: false,
-    limitedEdition: false,
-    newArrival: false,
-    bestSeller: false,
-    style: "All",
-    type: "All",
-    price: 990000,
-    color: "",
-    substance: "ALL",
-    removeFilter: false,
-  };
-
-  const handleRemove = () => {
-    dispatch(resetFilterObject(initFilterObject));
-    setStatusList([]);
-  };
 
   let newFilterObject = { ...filterObject, removeFilter: false };
   if (JSON.stringify(newFilterObject) === JSON.stringify(initFilterObject)) {
     newFilterObject.removeFilter = false;
   } else newFilterObject.removeFilter = true;
+
+  const handleRemove = () => {
+    dispatch(resetFilter(initFilterObject));
+    setStatusList([]);
+  };
 
   return (
     <div className={cx("sidebar", "c-3-6")}>

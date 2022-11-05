@@ -1,9 +1,15 @@
 .wrapper {
   position: relative;
-  margin: 0 60px;
+  margin: 0 30px;
   padding: 30px 15px;
 }
 
+@media screen and (min-width: 1140px) {
+  .wrapper {
+    width: 1200px;
+    margin: 0 auto;
+  }
+}
 .inner {
   display: flex;
 }
@@ -16,6 +22,10 @@
   padding: 15px 0 15px 10px;
   margin-bottom: 20px;
   background-color: #ccc;
+}
+
+.cart p {
+  padding: 0 4px;
 }
 
 .cart-empty {
@@ -39,6 +49,14 @@
     opacity: 0.9;
     cursor: pointer;
   }
+}
+
+.text-sorry {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 2rem;
+  font-weight: 600;
+  font-style: italic;
 }
 
 //order

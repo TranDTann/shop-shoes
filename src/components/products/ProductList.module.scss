@@ -4,11 +4,26 @@
   text-align: center;
 }
 
+.quantity-product {
+  font-size: 1.5rem;
+}
+
 .productList {
   max-width: 100%;
 }
 
 .header {
   padding: 0 15px 30px 15px;
-  // box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-sorry {
+  display: block;
+  height: 50px;
+  margin: 0 auto;
+  font-size: 2rem;
+  font-weight: 600;
+  font-style: italic;
 }

@@ -1,23 +1,29 @@
 import { faCircleXmark, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import className from "classnames/bind";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteProductCart } from "../products/ProductsSlice";
 
+import { deleteCart } from "../../redux/reducers/CartsSlice";
+import { updateProducts } from "../../redux/reducers/ProductsSlice";
+import { productListFilterSelector } from "../../redux/selectors";
 import styles from "./DropdownList.module.scss";
 
 const cx = className.bind(styles);
 
-function DrowdownList({ productList, handleClickHeart, type }) {
+function DrowdownList({ products, type }) {
   const dispatch = useDispatch();
+  const productList = useSelector(productListFilterSelector);
 
   let totalPrice = 0;
-  if (type === "cart" && productList.length > 0) {
-    totalPrice = productList.reduce(
-      (total, product) => total + product.price * product.quantity,
-      0
-    );
+  if (type === "cart" && products.length > 0) {
+    totalPrice = products.reduce((total, product) => {
+      let productCartItem = productList.find(
+        (item) => item.slug === product.slug
+      );
+      console.log(productCartItem);
+      return total + productCartItem?.price * product.quantity;
+    }, 0);
   }
 
   function formatCash(str) {
@@ -29,8 +35,14 @@ function DrowdownList({ productList, handleClickHeart, type }) {
       });
   }
 
-  const handleDeleteProductCart = (product) => {
-    dispatch(deleteProductCart(product.id));
+  const handleDeleteCart = (product) => {
+    dispatch(deleteCart(product.id));
+  };
+
+  const handleClickHeart = (product) => {
+    dispatch(
+      updateProducts({ id: product.id, isFavourite: !product.isFavourite })
+    );
   };
 
   return (
@@ -41,44 +53,34 @@ function DrowdownList({ productList, handleClickHeart, type }) {
         ) : (
           <p className={cx("title-header")}>Giỏ hàng</p>
         )}
-        {productList.length > 0 ? (
-          productList.map((product, index) => (
-            <Link
-              to={`/products/${product.slug}`}
-              title={product.name}
-              key={index}
-            >
-              <div className={cx("product-item", "row")}>
-                <div className={cx("img", "c-3-6")}>
-                  <img
-                    className={cx("img-product")}
-                    src={product.images[0].url}
-                    alt=""
-                  />
-                </div>
-                <div className={cx("info", "c-8-4")}>
-                  <p
-                    className={cx("name-product")}
-                    style={{ textTransform: "capitalize" }}
-                  >
-                    {product.name}
-                  </p>
-                  <div className={cx("price")}>
-                    <p className={cx("price-product")}>
-                      {formatCash(String(product.price))} VND
-                    </p>
-                    {type === "heart" ? (
-                      <button
-                        className={cx("heart")}
-                        onClick={() => handleClickHeart(product)}
+        {products.length > 0 ? (
+          products.map((product, index) => {
+            let productCartItem = productList.find(
+              (item) => item.slug === product.slug
+            );
+            return (
+              <div className={cx("product-item")}>
+                <Link
+                  to={`/products/${productCartItem?.slug}`}
+                  title={productCartItem?.name}
+                  key={index}
+                >
+                  <div className={cx("row")}>
+                    <div className={cx("img", "c-3-6")}>
+                      <img
+                        className={cx("img-product")}
+                        src={productCartItem?.images[0].url}
+                        alt=""
+                      />
+                    </div>
+                    <div className={cx("info", "c-8-4")}>
+                      <p
+                        className={cx("name-product")}
+                        style={{ textTransform: "capitalize" }}
                       >
-                        <FontAwesomeIcon
-                          className={cx("icon-heart")}
-                          icon={faCircleXmark}
-                        />
-                      </button>
-                    ) : (
-                      <div>
+                        {productCartItem?.name.toLowerCase()}
+                      </p>
+                      {type === "cart" && (
                         <div className={cx("info-buy")}>
                           <p className={cx("info-size")}>
                             Size: {product.size}
@@ -87,25 +89,40 @@ function DrowdownList({ productList, handleClickHeart, type }) {
                             Số lượng: {product.quantity}
                           </p>
                         </div>
-                        <button
-                          className={cx("btn-trash")}
-                          onClick={() => handleDeleteProductCart(product)}
-                        >
-                          <FontAwesomeIcon icon={faTrashCan} />
-                        </button>
+                      )}
+                      <div className={cx("price")}>
+                        <p className={cx("price-product")}>
+                          {formatCash(String(productCartItem?.price))} VND
+                        </p>
                       </div>
-                    )}
+                    </div>
                   </div>
-                </div>
+                </Link>
+                {type === "heart" ? (
+                  <button className={cx("btn-delete", "btn-heart")}>
+                    <FontAwesomeIcon
+                      className={cx("icon-heart")}
+                      icon={faCircleXmark}
+                      onClick={() => handleClickHeart(product)}
+                    />
+                  </button>
+                ) : (
+                  <button
+                    className={cx("btn-delete", "btn-trash")}
+                    onClick={() => handleDeleteCart(product)}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                )}
               </div>
-            </Link>
-          ))
+            );
+          })
         ) : (
           <div className={cx("noti-empty")}>Chưa có sản phẩm nào tại đây</div>
         )}
-        <div></div>
-        {type === "cart" && (
-          <div className={cx("footer")}>
+
+        {type === "cart" ? (
+          <div className={cx("footer-cart")}>
             <h6 className={cx("price-total")}>
               Total: {formatCash(String(totalPrice))} VND
             </h6>
@@ -113,6 +130,8 @@ function DrowdownList({ productList, handleClickHeart, type }) {
               <button className={cx("btn-go-to-cart")}>GO TO CART</button>
             </Link>
           </div>
+        ) : (
+          <div className={cx("footer-favourite")}></div>
         )}
       </div>
     </div>
