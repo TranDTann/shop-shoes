@@ -21,10 +21,9 @@
   align-items: center;
 }
 
-@media screen and (min-width: 1140px) {
-  .inner {
-    width: 1140px;
-    padding: 0 30px;
+@media screen and (min-width: 1200px) {
+  .wrapper {
+    width: 1200px;
   }
 }
 

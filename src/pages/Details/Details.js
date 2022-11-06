@@ -149,7 +149,9 @@ function Details() {
           </div>
           <div className={cx("dot-line")}></div>
 
-          <p className={cx("des-product")}>{product?.overview}</p>
+          <p className={cx("des-product")} style={{ textAlign: "justify" }}>
+            {product?.overview}
+          </p>
           <div className={cx("dot-line")}></div>
 
           <div className={cx("select")}>
@@ -225,7 +227,7 @@ function Details() {
               />
             </h3>
             {clickRegulations && (
-              <p>
+              <p style={{ textAlign: "justify" }}>
                 Đối với những sản phẩm giày và thời trang thuộc phiên bản giới
                 hạn. Vì nhiều lý do chúng tôi sẽ không áp dụng chính sách đổi
                 hàng. Vui lòng cân nhắc kỹ trước khi quyết định mua.
@@ -242,7 +244,7 @@ function Details() {
               />
             </h3>
             {clickInsurance && (
-              <p>
+              <p style={{ textAlign: "justify" }}>
                 Mỗi đôi giày Ananas trước khi xuất xưởng đều trải qua nhiều khâu
                 kiểm tra. Tuy vậy, trong quá trình sử dụng, nếu nhận thấy các
                 lỗi: gãy đế, hở đế, đứt chỉ may,...trong thời gian 6 tháng từ
