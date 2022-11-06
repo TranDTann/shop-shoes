@@ -9,6 +9,7 @@ function Women() {
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(setCurrTab("women"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

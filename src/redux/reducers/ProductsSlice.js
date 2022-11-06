@@ -37,6 +37,7 @@ const ProductsSlice = createSlice({
           if (product.slug === action.payload.slug) {
             product.isFavourite = !product.isFavourite;
           }
+          return product;
         });
       });
   },

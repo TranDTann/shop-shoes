@@ -78,6 +78,7 @@ function ProductList({ gender }) {
 
   useEffect(() => {
     dispatch(setCurrTab("all"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (gender === "men") {
