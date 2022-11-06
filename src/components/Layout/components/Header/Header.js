@@ -70,7 +70,7 @@ function Header() {
                   className={cx("btn-tab", currTab === "men" && "active")}
                   onClick={() => handleChangeTab("men")}
                 >
-                  MEN
+                  M E N
                 </button>
               </Link>
               <Link className={cx("navbar-item")} to="/products/women">
