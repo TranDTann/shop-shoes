@@ -44,12 +44,15 @@ function Type({ filterObject }) {
           {types.map((type, index) => (
             <li key={index} className={cx("filter-item", "mgb-10")}>
               <input
-                type={"radio"}
+                id={type}
+                type="radio"
                 value={type}
                 checked={filterObject.type === type}
                 onChange={(e) => handleChangeType(e)}
               />
-              <p style={{ textTransform: "capitalize" }}>{type}</p>
+              <label for={type} style={{ textTransform: "capitalize" }}>
+                {type}
+              </label>
             </li>
           ))}
         </ul>

@@ -43,12 +43,15 @@ function Style({ filterObject }) {
           {arrStyles.map((style, index) => (
             <li key={index} className={cx("filter-item", "mgb-10")}>
               <input
+                id={style}
                 type="radio"
                 value={style}
                 checked={filterObject.style === style}
                 onChange={(e) => handleChangeStyle(e)}
               ></input>
-              <p style={{ textTransform: "capitalize" }}>{style}</p>
+              <label for={style} style={{ textTransform: "capitalize" }}>
+                {style}
+              </label>
             </li>
           ))}
         </ul>

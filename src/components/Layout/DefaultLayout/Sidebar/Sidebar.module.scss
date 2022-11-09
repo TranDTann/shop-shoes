@@ -33,6 +33,9 @@
 
 .filter-item {
   display: flex;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .filter-item input {

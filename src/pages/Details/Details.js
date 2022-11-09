@@ -131,13 +131,15 @@ function Details() {
         <div className={cx("info-product", "c-5")}>
           <h2>{product?.name} </h2>
           <div className={cx("info-item")}>
-            <p>Mã sản phẩm: {product?.slug}</p>
+            <p>
+              Mã sản phẩm: <i>{product?.slug}</i>
+            </p>
             <p>
               Tình trạng:{" "}
               {product?.status ? (
                 <span className={cx("name-status")}>{product?.status}</span>
               ) : (
-                "Còn hàng"
+                <i>Còn hàng</i>
               )}
             </p>
           </div>
@@ -210,12 +212,18 @@ function Details() {
               />
             </h3>
             <p>
-              Gender:
+              <b>Gender:</b>
               <span className={cx("gender-info")}> {product?.info[0]}</span>
             </p>
-            <p>Size Run: {product?.info[1]}</p>
-            <p>Upper: {product?.info[2]} </p>
-            <p>Outsole: {product?.info[3]} </p>
+            <p>
+              <b>Size Run:</b> {product?.info[1]}
+            </p>
+            <p>
+              <b>Upper:</b> {product?.info[2]}{" "}
+            </p>
+            <p>
+              <b>Outsole:</b> {product?.info[3]}{" "}
+            </p>
           </div>
           <div className={cx("dot-line")}></div>
           <div className={cx("regulation", "sub-title")}>

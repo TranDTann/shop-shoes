@@ -63,12 +63,12 @@ function Status({ filterObject, statusList, setStatusList }) {
       {clickTitle && (
         <ul className={cx("filter-list", "filter-list-status")}>
           {arrStatus.map((item, index) => (
-            <li key={index} className={cx("filter-item", "mgb-10")}>
-              <input
-                checked={filterObject[item.status]}
-                type="checkbox"
-                onChange={() => handleAddStatusList(item.name)}
-              />
+            <li
+              key={index}
+              className={cx("filter-item", "mgb-10")}
+              onClick={() => handleAddStatusList(item.name)}
+            >
+              <input checked={filterObject[item.status]} type="checkbox" />
               <p>{item.name}</p>
             </li>
           ))}
