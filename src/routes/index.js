@@ -2,11 +2,12 @@ import Home from "../pages/Home/Home";
 import Pay from "../pages/Pay/Pay";
 import Cart from "../pages/Cart/Cart";
 import HeaderFooter from "../components/Layout/HeaderFooter/HeaderFooter";
-import ProductList from "../components/products/ProductList";
+
 import Men from "../pages/Men/Men";
 import Women from "../pages/Women/Women";
 import PageNotFound from "../pages/PageNotFound";
 import NoLayout from "../components/Layout/NoLayout";
+import ProductList from "../components/products/ProductList";
 
 //Nhung Route khong can dang nhap van xem duoc
 export const publicRoutes = [

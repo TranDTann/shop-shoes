@@ -16,8 +16,7 @@ function Type({ filterObject }) {
   const dispatch = useDispatch();
 
   const handleChangeType = (e) => {
-    let updateChange = e.target.value;
-    dispatch(typeSelected(updateChange));
+    dispatch(typeSelected(e.target.value));
   };
 
   const getUnique = (items, key) => [

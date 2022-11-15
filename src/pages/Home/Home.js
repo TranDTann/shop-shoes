@@ -1,8 +1,8 @@
 import className from "classnames/bind";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Slideshow from "../../components/Slider/Slider";
 
-import Slideshow from "../../components/Layout/components/Slider/Sider";
 import { setCurrTab } from "../../redux/reducers/ProductsSlice";
 import styles from "./Home.module.scss";
 

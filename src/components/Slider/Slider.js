@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import styles from "./Sider.module.scss";
+import styles from "./Slider.module.scss";
 
 const cx = className.bind(styles);
 

@@ -18,7 +18,7 @@ import {
 } from "../../redux/selectors";
 import Heart from "../../components/heart/Heart";
 import { addToCart, editCart } from "../../redux/reducers/CartsSlice";
-import { updateProducts } from "../../redux/reducers/ProductsSlice";
+import { updateProductFavourite } from "../../redux/reducers/ProductsSlice";
 
 const cx = className.bind(styles);
 
@@ -30,6 +30,7 @@ function Details() {
   const [quantity, setQuantity] = useState(0);
   const [clickRegulations, setClickRegulations] = useState(false);
   const [clickInsurance, setClickInsurance] = useState(false);
+
   const dispatch = useDispatch();
   let { slug } = useParams();
   const cartList = useSelector(cartListSelector);
@@ -55,11 +56,9 @@ function Details() {
           for (i = 0; i < newCart.length; i++) {
             if (size === newCart[i].size) {
               let id = newCart[i].id;
-              let updateQuantity =
-                Number(quantity) + Number(newCart[i].quantity);
-              console.log(updateQuantity);
+              let newQuantity = Number(quantity) + Number(newCart[i].quantity);
               toast.success("Cập nhật giỏ hàng thành công !");
-              dispatch(editCart({ totalQuantity: updateQuantity, id }));
+              dispatch(editCart({ newQuantity, id }));
               break;
             }
           }
@@ -100,7 +99,10 @@ function Details() {
 
   const handleClickHeart = () => {
     dispatch(
-      updateProducts({ id: product.id, isFavourite: !product.isFavourite })
+      updateProductFavourite({
+        id: product.id,
+        isFavourite: !product.isFavourite,
+      })
     );
   };
 

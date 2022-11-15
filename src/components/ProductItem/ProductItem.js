@@ -1,8 +1,8 @@
 import className from "classnames/bind";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { updateProductFavourite } from "../../redux/reducers/ProductsSlice";
 
-import { updateProducts } from "../../redux/reducers/ProductsSlice";
 import Heart from "../heart/Heart";
 import styles from "./ProductItem.module.scss";
 
@@ -22,7 +22,10 @@ function ProductItem({ product }) {
 
   const handleClickHeart = () => {
     dispatch(
-      updateProducts({ id: product.id, isFavourite: !product.isFavourite })
+      updateProductFavourite({
+        id: product.id,
+        isFavourite: !product.isFavourite,
+      })
     );
   };
 
@@ -48,7 +51,6 @@ function ProductItem({ product }) {
           <p className={cx("limited")}>Limited Edition</p>
         )}
         <Link to={`/products/${product.slug}`}>
-          {" "}
           <button className={cx("view-detail")}>XEM CHI TIẾT</button>
         </Link>
       </div>

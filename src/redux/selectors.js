@@ -74,6 +74,8 @@ export const cartListSelector = (state) => state.carts.cart;
 
 export const searchTextSelector = (state) => state.filters.searchText;
 
+export const isRemoveFilterSelected = (state) => state.filters.isRemoveFilter;
+
 export const favouritesProductSelector = (state) =>
   state.productList.products.filter((product) => product.isFavourite);
 

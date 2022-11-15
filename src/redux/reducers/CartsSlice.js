@@ -30,7 +30,6 @@ const CartsSlice = createSlice({
             item.slug === action.payload.slug &&
             item.size === action.payload.size
         );
-
         product.quantity = action.payload.quantity;
       })
 
@@ -65,7 +64,7 @@ export const addToCart = createAsyncThunk("carts/addToCart", async (data) => {
 export const editCart = createAsyncThunk("carts/editCart", async (data) => {
   try {
     const res = await httpRequest.put(`/cart/${data.id}`, {
-      quantity: data.totalQuantity,
+      quantity: data.newQuantity,
     });
     return res.data;
   } catch (err) {

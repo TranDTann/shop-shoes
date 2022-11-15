@@ -16,7 +16,7 @@ const cx = className.bind(styles);
 
 function Cart() {
   const [codePromotion, setCodePromotion] = useState("");
-  const [apply, setApply] = useState(false);
+  const [applySuccess, setApplySuccess] = useState(false);
   const refInput = useRef();
 
   let cartList = useSelector(cartListSelector);
@@ -43,18 +43,14 @@ function Cart() {
     return total + productCartItem.price * product.quantity;
   }, 0);
 
-  const handleCodePromotion = () => {
+  const handleApplyCodePromotion = () => {
     if (codePromotion === "TANRAU") {
-      setApply(true);
+      setApplySuccess(true);
       setCodePromotion("");
       refInput.current.focus();
       toast.success("Mã khuyến mãi đã được áp dụng!", {});
-    } else if (codePromotion !== "TANRAU" && apply === true) {
-      setApply(false);
-      refInput.current.focus();
-      toast.error("Mã khuyến mãi chưa được áp dụng!", {});
-    } else if (codePromotion !== "TANRAU") {
-      setApply(false);
+    } else {
+      setApplySuccess(false);
       refInput.current.focus();
       toast.error("Mã khuyến mãi chưa được áp dụng!", {});
     }
@@ -80,7 +76,7 @@ function Cart() {
           <h3>GIỎ HÀNG</h3>
           <p>Tổng: {cartListFilter.length} sản phẩm</p>
           {cartList.length ? (
-            cartListFilter.length > 0 ? (
+            cartListFilter.length ? (
               cartListFilter.map((product) => (
                 <CartItem
                   product={product}
@@ -121,7 +117,7 @@ function Cart() {
             />
             <button
               className={cx("btn-apply")}
-              onClick={() => handleCodePromotion()}
+              onClick={() => handleApplyCodePromotion()}
             >
               ÁP DỤNG
             </button>
@@ -137,7 +133,7 @@ function Cart() {
               pauseOnHover
               theme="colored"
             />
-            {apply && (
+            {applySuccess && (
               <p className={cx("status-apply")}>
                 Mã khuyến mãi đã được áp dụng
               </p>
@@ -149,19 +145,21 @@ function Cart() {
             </div>
             <div className={cx("sale", "calculate")}>
               <p>Giảm</p>
-              <p>{apply ? formatCash(String(totalPrice / 10)) : 0} VND</p>
+              <p>
+                {applySuccess ? formatCash(String(totalPrice / 10)) : 0} VND
+              </p>
             </div>
             <div className={cx("dot-line")}></div>
             <div className={cx("total-price")}>
               <h3>TẠM TÍNH</h3>
               <h3>
-                {apply
+                {applySuccess
                   ? formatCash(String(totalPrice * 0.9))
                   : formatCash(String(totalPrice))}{" "}
                 VND
               </h3>
             </div>
-            {cartListFilter.length > 0 ? (
+            {cartListFilter.length ? (
               <Link to="/pay">
                 <button className={cx("btn-pay")}>TIẾP TỤC THANH TOÁN</button>
               </Link>
@@ -173,7 +171,7 @@ function Cart() {
           </div>
         </div>
       </div>
-      {cartListFilter.length > 0 && (
+      {cartListFilter.length && (
         <Link to="/products">
           <button className={cx("btn-shopping")}>TIẾP TỤC MUA SẮM</button>
         </Link>

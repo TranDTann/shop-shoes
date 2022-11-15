@@ -1,5 +1,4 @@
 import className from "classnames/bind";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { colorSelected } from "../../../redux/reducers/FiltersSlice";
 
@@ -9,19 +8,17 @@ import styles from "../../Layout/DefaultLayout/Sidebar/Sidebar.module.scss";
 const cx = className.bind(styles);
 
 function Color() {
-  const [clickColor, setClickColor] = useState(false);
   const productList = useSelector(productListSelector);
   const dispatch = useDispatch();
 
-  const getUnique = (items, key) => {
-    return [...new Set(items.map((item) => item[key]))];
-  };
+  const getUnique = (items, key) => [
+    ...new Set(items.map((item) => item[key])),
+  ];
+
   let Colors = [...getUnique(productList, "typeColor")];
 
   const handleColor = (color) => {
-    setClickColor(!clickColor);
-    let updateColor = color;
-    dispatch(colorSelected(updateColor));
+    dispatch(colorSelected(color));
   };
 
   return (

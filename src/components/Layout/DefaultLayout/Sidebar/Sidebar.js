@@ -32,7 +32,7 @@ let initFilterObject = {
 };
 
 function Sidebar() {
-  const [statusList, setStatusList] = useState([]);
+  const [statusSelected, setStatusSelected] = useState([]);
   const filterObject = useSelector(filterObjectSelector);
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ function Sidebar() {
 
   const handleRemove = () => {
     dispatch(resetFilter(initFilterObject));
-    setStatusList([]);
+    setStatusSelected([]);
   };
 
   return (
@@ -58,8 +58,8 @@ function Sidebar() {
       <div className={cx("filter")}>
         <Status
           filterObject={filterObject}
-          statusList={statusList}
-          setStatusList={setStatusList}
+          statusSelected={statusSelected}
+          setStatusSelected={setStatusSelected}
         />
       </div>
       <div className={cx("filter")}>

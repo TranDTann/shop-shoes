@@ -9,7 +9,7 @@ import {
   searchTextSelector,
 } from "../../redux/selectors";
 import ProductItem from "../ProductItem/ProductItem";
-import { setCurrTab, setProduct } from "../../redux/reducers/ProductsSlice";
+import { setCurrTab } from "../../redux/reducers/ProductsSlice";
 import styles from "./ProductList.module.scss";
 import Sort from "../sort/Sort";
 import Skeleton from "react-loading-skeleton";
@@ -17,7 +17,7 @@ import Skeleton from "react-loading-skeleton";
 const cx = className.bind(styles);
 
 function ProductList({ gender }) {
-  const [type, setType] = useState();
+  const [type, setType] = useState(); //type la type sort
   const dispatch = useDispatch();
 
   let productListFilter = useSelector(productListFilterSelector);
@@ -29,52 +29,30 @@ function ProductList({ gender }) {
     product.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  useEffect(() => {
-    switch (type?.type) {
-      case "nameIncrease": {
-        dispatch(
-          setProduct(
-            [...productListFilter].sort((a, b) => (a.name <= b.name ? -1 : 1))
-          )
-        );
-        break;
-      }
-      case "nameDecrease": {
-        dispatch(
-          setProduct(
-            [...productListFilter].sort((a, b) => (a.name > b.name ? -1 : 1))
-          )
-        );
-        break;
-      }
-      case "priceIncrease": {
-        dispatch(
-          setProduct(
-            [...productListFilter].sort((a, b) => (a.price <= b.price ? -1 : 1))
-          )
-        );
-        break;
-      }
-      case "priceDecrease": {
-        dispatch(
-          setProduct(
-            [...productListFilter].sort((a, b) => (a.price > b.price ? -1 : 1))
-          )
-        );
-        break;
-      }
-      case "topSeller": {
-        dispatch(
-          setProduct(
-            [...productListFilter].sort((a, b) => (a.sold > b.sold ? -1 : 1))
-          )
-        );
-        break;
-      }
-      default:
+  switch (type?.type) {
+    case "nameIncrease": {
+      productListFilter.sort((a, b) => (a.name <= b.name ? -1 : 1));
+      break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type?.type]);
+    case "nameDecrease": {
+      productListFilter.sort((a, b) => (a.name > b.name ? -1 : 1));
+      break;
+    }
+    case "priceIncrease": {
+      productListFilter.sort((a, b) => (a.price <= b.price ? -1 : 1));
+      break;
+    }
+    case "priceDecrease": {
+      productListFilter.sort((a, b) => (a.price > b.price ? -1 : 1));
+      break;
+    }
+    case "topSeller": {
+      [...productListFilter].sort((a, b) => (a.sold > b.sold ? -1 : 1));
+      break;
+    }
+    default:
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     dispatch(setCurrTab("all"));

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { updateProducts } from "../../../redux/reducers/ProductsSlice";
+import { updateProductFavourite } from "../../../redux/reducers/ProductsSlice";
 import Heart from "../../../components/heart/Heart";
 import styles from "./CartItem.module.scss";
 import { deleteCart, editCart } from "../../../redux/reducers/CartsSlice";
@@ -18,11 +18,11 @@ function CartItem({ product, formatCash }) {
 
   const handleChangeQuantity = (e, product) => {
     if (e.target.value === "+") {
-      let totalQuantity = product.quantity + 1;
-      dispatch(editCart({ id: product.id, totalQuantity }));
+      let newQuantity = product.quantity + 1;
+      dispatch(editCart({ id: product.id, newQuantity }));
     } else {
-      let totalQuantity = product.quantity - 1;
-      dispatch(editCart({ id: product.id, totalQuantity }));
+      let newQuantity = product.quantity - 1;
+      dispatch(editCart({ id: product.id, newQuantity }));
     }
   };
 
@@ -33,7 +33,7 @@ function CartItem({ product, formatCash }) {
   let productCartItem = productList.find((item) => item.slug === product.slug);
   const handleClickHeart = () => {
     dispatch(
-      updateProducts({
+      updateProductFavourite({
         id: productCartItem.id,
         isFavourite: !productCartItem.isFavourite,
       })

@@ -15,14 +15,15 @@ function Substance() {
   const productList = useSelector(productListSelector);
   const filterObject = useSelector(filterObjectSelector);
 
-  const getUnique = (items, key) => {
-    return ["ALL", ...new Set(items.map((item) => item[key]))];
-  };
+  const getUnique = (items, key) => [
+    "ALL",
+    ...new Set(items.map((item) => item[key])),
+  ];
+
   const substances = getUnique(productList, "by");
 
   const handleSelectSubstance = (e) => {
-    let updateSubstance = e.target.value;
-    dispatch(substanceSelected(updateSubstance));
+    dispatch(substanceSelected(e.target.value));
   };
 
   return (

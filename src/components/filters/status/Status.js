@@ -32,18 +32,18 @@ const arrStatus = [
   },
 ];
 
-function Status({ filterObject, statusList, setStatusList }) {
+function Status({ filterObject, statusSelected, setStatusSelected }) {
   const [clickTitle, setClickTitle] = useState(false);
   const dispatch = useDispatch();
 
   const handleAddStatusList = (status) => {
-    let updateStatusList = [...statusList];
+    let updateStatusList = [...statusSelected];
     if (updateStatusList.includes(status)) {
       updateStatusList = updateStatusList.filter((item) => item !== status);
     } else {
       updateStatusList.push(status);
     }
-    setStatusList(updateStatusList);
+    setStatusSelected(updateStatusList);
     dispatch(listStatus(updateStatusList));
   };
 

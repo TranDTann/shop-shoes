@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { deleteCart } from "../../redux/reducers/CartsSlice";
-import { updateProducts } from "../../redux/reducers/ProductsSlice";
+import { updateProductFavourite } from "../../redux/reducers/ProductsSlice";
 import { productListFilterSelector } from "../../redux/selectors";
 import styles from "./DropdownList.module.scss";
 
 const cx = className.bind(styles);
 
-function DrowdownList({ products, type }) {
+function DropdownList({ products, type }) {
   const dispatch = useDispatch();
   const productList = useSelector(productListFilterSelector);
 
@@ -21,7 +21,6 @@ function DrowdownList({ products, type }) {
       let productCartItem = productList.find(
         (item) => item.slug === product.slug
       );
-      console.log(productCartItem);
       return total + productCartItem?.price * product.quantity;
     }, 0);
   }
@@ -41,7 +40,10 @@ function DrowdownList({ products, type }) {
 
   const handleClickHeart = (product) => {
     dispatch(
-      updateProducts({ id: product.id, isFavourite: !product.isFavourite })
+      updateProductFavourite({
+        id: product.id,
+        isFavourite: !product.isFavourite,
+      })
     );
   };
 
@@ -138,4 +140,4 @@ function DrowdownList({ products, type }) {
   );
 }
 
-export default DrowdownList;
+export default DropdownList;

@@ -17,22 +17,15 @@ const ProductsSlice = createSlice({
     setCurrTab: (state, action) => {
       state.currTab = action.payload;
     },
-
-    setProduct: (state, action) => {
-      state.products = action.payload;
-    },
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.products = action.payload;
-        state.favourites = action.payload.filter(
-          (product) => product.isFavourite
-        );
       })
 
-      .addCase(updateProducts.fulfilled, (state, action) => {
+      .addCase(updateProductFavourite.fulfilled, (state, action) => {
         state.products.map((product) => {
           if (product.slug === action.payload.slug) {
             product.isFavourite = !product.isFavourite;
@@ -43,8 +36,7 @@ const ProductsSlice = createSlice({
   },
 });
 
-export const { setProduct, setFavourite, setLogin, setCurrTab } =
-  ProductsSlice.actions;
+export const { setFavourite, setLogin, setCurrTab } = ProductsSlice.actions;
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
@@ -58,8 +50,8 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-export const updateProducts = createAsyncThunk(
-  "products/updateProducts",
+export const updateProductFavourite = createAsyncThunk(
+  "products/updateProductFavourite",
   async (dataEdit) => {
     try {
       const res = await httpRequest.put(`/products/${dataEdit.id}`, {
@@ -67,7 +59,7 @@ export const updateProducts = createAsyncThunk(
       });
       return res.data;
     } catch (err) {
-      console.log("errUpdateProducts", err);
+      console.log("errUpdateProductFavourite", err);
     }
   }
 );

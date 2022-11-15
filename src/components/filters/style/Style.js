@@ -16,13 +16,14 @@ function Style({ filterObject }) {
   const productList = useSelector(productListSelector);
 
   const handleChangeStyle = (e) => {
-    let updateChange = e.target.value;
-    dispatch(styleSelected(updateChange));
+    dispatch(styleSelected(e.target.value));
   };
 
-  const getUnique = (items, key) => {
-    return ["All", ...new Set(items.map((item) => item[key]))];
-  };
+  const getUnique = (items, key) => [
+    "All",
+    ...new Set(items.map((item) => item[key])),
+  ];
+
   const arrStyles = getUnique(productList, "style");
 
   return (

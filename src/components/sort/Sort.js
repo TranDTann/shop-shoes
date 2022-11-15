@@ -1,5 +1,7 @@
 import className from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { isRemoveFilterSelected } from "../../redux/selectors";
 
 import styles from "./Sort.module.scss";
 
@@ -16,23 +18,28 @@ const sortTypes = [
 function Sort({ type, setType }) {
   const [clickSort, setClickSort] = useState(false);
   const ref = useRef(null);
+  let isRemoveFilter = useSelector(isRemoveFilterSelected);
 
   const handleSelectSort = (type) => {
     setType(type);
     setClickSort(!clickSort);
   };
 
+  if (isRemoveFilter === false) {
+    setType();
+  }
+
   useEffect(() => {
-    const handleClickoutside = (e) => {
+    const handleClickOutside = (e) => {
       if (e.path[0] !== ref.current) {
         setClickSort(false);
       }
     };
-    document.addEventListener("click", handleClickoutside);
-    return () => document.removeEventListener("click", handleClickoutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const handleClick = (e) => {
+  const handleClickSort = (e) => {
     e.stopPropagation();
     setClickSort(!clickSort);
   };
@@ -42,26 +49,19 @@ function Sort({ type, setType }) {
       <div className={cx("select-price")} ref={ref}>
         <button
           className={cx("btn-select")}
-          id="dropdownMenuButton"
-          type="button"
-          data-bs-toggle="select-price"
-          aria-expanded="false"
-          onClick={(e) => handleClick(e)}
+          onClick={(e) => handleClickSort(e)}
         >
           {type ? type.label : "Sắp xếp theo"}
           <div className={cx("icon-down")}></div>
         </button>
 
         {clickSort && (
-          <ul
-            className={cx("select-list")}
-            aria-labelledby="dropdownMenuButton"
-          >
+          <ul className={cx("select-list")}>
             {sortTypes.map((sortType, index) => (
               <li
                 key={index}
                 style={
-                  type === sortType.type
+                  type === sortType
                     ? {
                         backgroundColor: "#e9ecef",
                         fontWeight: "600",
@@ -70,7 +70,6 @@ function Sort({ type, setType }) {
                 }
                 onClick={() => handleSelectSort(sortType)}
               >
-                {" "}
                 {sortType.label}
               </li>
             ))}

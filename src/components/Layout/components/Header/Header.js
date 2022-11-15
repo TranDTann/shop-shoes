@@ -16,7 +16,7 @@ import {
   favouritesProductSelector,
   isLoginSelector,
 } from "../../../../redux/selectors";
-import DrowdownList from "../../../dropdownList/DropdownList";
+import DropdownList from "../../../dropdownList/DropdownList";
 import { setCurrTab, setLogin } from "../../../../redux/reducers/ProductsSlice";
 
 const cx = className.bind(styles);
@@ -28,7 +28,7 @@ function Header() {
 
   let isLogin = useSelector(isLoginSelector);
 
-  const handleLogin = () => {
+  const handleClickLogin = () => {
     dispatch(setLogin(!isLogin));
   };
   const currTab = useSelector(currTabSelector);
@@ -88,18 +88,18 @@ function Header() {
               <div className={cx("quantity")}>{productFavourite.length}</div>
 
               <div className={cx("products")}>
-                <DrowdownList type="heart" products={productFavourite} />
+                <DropdownList type="heart" products={productFavourite} />
               </div>
             </button>
             <button className={cx("cart-icon", "icon-general")}>
               <FontAwesomeIcon icon={faCartShopping} />
               <div className={cx("quantity")}>{productCart?.length}</div>
               <div className={cx("products")}>
-                <DrowdownList type="cart" products={productCart} />
+                <DropdownList type="cart" products={productCart} />
               </div>
             </button>
             {isLogin ? (
-              <button className={cx("user")} onClick={() => handleLogin()}>
+              <button className={cx("user")} onClick={() => handleClickLogin()}>
                 Tân{" "}
                 <FontAwesomeIcon
                   className={cx("icon-log-out")}
@@ -107,7 +107,10 @@ function Header() {
                 />
               </button>
             ) : (
-              <button className={cx("log-in")} onClick={() => handleLogin()}>
+              <button
+                className={cx("log-in")}
+                onClick={() => handleClickLogin()}
+              >
                 Log in
               </button>
             )}
